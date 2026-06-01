@@ -1,0 +1,24 @@
+PassengerEnabled on
+PassengerAppRoot /home/$USER/vulnshop
+PassengerPython /home/$USER/virtualenv/vulnshop/3.13/bin/python
+
+# Redirect semua request ke Passenger WSGI
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /passenger_wsgi.py/$1 [L,QSA]
+
+# Proteksi folder data dan file sensitif
+<IfModule mod_rewrite.c>
+    # Block akses langsung ke database
+    RewriteRule ^data/ - [F,L]
+
+    # Block akses ke file Python source (kecuali melalui Passenger)
+    RewriteRule \.py$ - [F,L]
+
+    # Block akses ke .env (meskipun VulnShop sengaja expose, ini untuk produksi)
+    # RewriteRule ^\.env$ - [F,L]
+</IfModule>
+
+# Set default index
+DirectoryIndex index.html passenger_wsgi.py
