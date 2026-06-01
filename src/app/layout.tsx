@@ -14,11 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "OWASP Juice Shop",
-  description: "The most modern and sophisticated insecure web application! A deliberately vulnerable e-commerce application for security training, awareness, and practice.",
-  keywords: ["OWASP", "Juice Shop", "security training", "vulnerable app", "web security", "CTF"],
+  title: "ShadowMart - The Digital Underground",
+  description: "The most dangerous marketplace on the dark web. A deliberately vulnerable e-commerce application for security training, awareness, and CTF practice.",
+  keywords: ["ShadowMart", "security training", "vulnerable app", "web security", "CTF", "cyberpunk", "hacking"],
   icons: {
-    icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍊</text></svg>",
+    icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔒</text></svg>",
   },
 };
 
@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0a0a0f] text-gray-200`}
       >
         {children}
         <Toaster position="top-right" richColors />

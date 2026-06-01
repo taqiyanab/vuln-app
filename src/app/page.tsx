@@ -16,7 +16,6 @@ import { Separator } from '@/components/ui/separator'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Progress } from '@/components/ui/progress'
-
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem,
@@ -30,9 +29,17 @@ import {
   Shield, Trophy, Home, Menu, X, Star, Plus, Minus, Trash2,
   ChevronRight, Package, Lock, Eye, EyeOff, AlertTriangle,
   ShoppingBag, Clock, CheckCircle2, Truck, Zap,
-  Apple, Citrus, Flower2, Wrench, Heart, ArrowLeft,
+  Bug, Skull, Terminal, Cpu, ArrowLeft, Key, Radio, Fingerprint,
 } from 'lucide-react'
 import { toast } from 'sonner'
+
+// ─── Theme Constants ─────────────────────────────────────────────
+const NEON_CYAN = '#00ffcc'
+const NEON_PURPLE = '#a855f7'
+const NEON_PINK = '#f43f5e'
+const DARK_BG = '#0a0a0f'
+const CARD_BG = '#111827'
+const CARD_BG_HOVER = '#1f2937'
 
 // ─── Helper: Star Rating ────────────────────────────────────────
 function StarRating({ rating, onChange, size = 16 }: { rating: number; onChange?: (r: number) => void; size?: number }) {
@@ -47,7 +54,7 @@ function StarRating({ rating, onChange, size = 16 }: { rating: number; onChange?
         >
           <Star
             size={size}
-            className={i <= rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}
+            className={i <= rating ? 'fill-[#00ffcc] text-[#00ffcc]' : 'text-gray-600'}
           />
         </button>
       ))}
@@ -56,22 +63,22 @@ function StarRating({ rating, onChange, size = 16 }: { rating: number; onChange?
 }
 
 // ─── Category Icons ─────────────────────────────────────────────
-const categoryMeta: Record<string, { icon: React.ReactNode; color: string; bg: string }> = {
-  Juice: { icon: <Citrus size={32} />, color: 'text-orange-600', bg: 'bg-orange-50' },
-  Smoothie: { icon: <Apple size={32} />, color: 'text-purple-600', bg: 'bg-purple-50' },
-  'Fruit Basket': { icon: <Flower2 size={32} />, color: 'text-green-600', bg: 'bg-green-50' },
-  Accessory: { icon: <Wrench size={32} />, color: 'text-gray-600', bg: 'bg-gray-50' },
+const categoryMeta: Record<string, { icon: React.ReactNode; color: string; bg: string; borderColor: string }> = {
+  'Exploit Kits': { icon: <Bug size={32} />, color: 'text-[#00ffcc]', bg: 'bg-[#00ffcc]/10', borderColor: 'border-[#00ffcc]/30' },
+  'Cryptography': { icon: <Key size={32} />, color: 'text-[#a855f7]', bg: 'bg-[#a855f7]/10', borderColor: 'border-[#a855f7]/30' },
+  'Zero-Day Archives': { icon: <Skull size={32} />, color: 'text-[#f43f5e]', bg: 'bg-[#f43f5e]/10', borderColor: 'border-[#f43f5e]/30' },
+  'Digital Weapons': { icon: <Cpu size={32} />, color: 'text-[#fbbf24]', bg: 'bg-[#fbbf24]/10', borderColor: 'border-[#fbbf24]/30' },
 }
 
 // ─── Challenge Category Colors ──────────────────────────────────
 const challengeCatColors: Record<string, string> = {
-  Injection: 'bg-red-100 text-red-800 border-red-200',
-  XSS: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-  'Broken Authentication': 'bg-purple-100 text-purple-800 border-purple-200',
-  'Sensitive Data Exposure': 'bg-pink-100 text-pink-800 border-pink-200',
-  'Broken Access Control': 'bg-orange-100 text-orange-800 border-orange-200',
-  'Security Misconfiguration': 'bg-blue-100 text-blue-800 border-blue-200',
-  CSRF: 'bg-teal-100 text-teal-800 border-teal-200',
+  Injection: 'bg-red-500/20 text-red-400 border-red-500/30',
+  XSS: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+  'Broken Authentication': 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+  'Sensitive Data Exposure': 'bg-pink-500/20 text-pink-400 border-pink-500/30',
+  'Broken Access Control': 'bg-orange-500/20 text-orange-400 border-orange-500/30',
+  'Security Misconfiguration': 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
+  CSRF: 'bg-teal-500/20 text-teal-400 border-teal-500/30',
 }
 
 // ─── Navbar ─────────────────────────────────────────────────────
@@ -94,7 +101,7 @@ function Navbar() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+    <header className="sticky top-0 z-50 bg-[#0a0a0f]/95 backdrop-blur-md border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center h-16 gap-4">
           {/* Logo */}
@@ -102,10 +109,10 @@ function Navbar() {
             onClick={() => navigate('home')}
             className="flex items-center gap-2 font-bold text-xl shrink-0"
           >
-            <span className="text-2xl">🍊</span>
+            <span className="text-2xl">🔒</span>
             <span className="hidden sm:inline">
-              <span className="text-[#ff6b35]">Juice</span>
-              <span className="text-[#4caf50]"> Shop</span>
+              <span className="text-[#00ffcc]">Shadow</span>
+              <span className="text-[#a855f7]">Mart</span>
             </span>
           </button>
 
@@ -117,8 +124,8 @@ function Navbar() {
                 onClick={() => navigate(link.page)}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   currentPage === link.page
-                    ? 'bg-orange-50 text-[#ff6b35]'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    ? 'bg-[#00ffcc]/10 text-[#00ffcc]'
+                    : 'text-gray-400 hover:bg-gray-800 hover:text-gray-200'
                 }`}
               >
                 {link.icon}
@@ -130,8 +137,8 @@ function Navbar() {
                 onClick={() => navigate('admin')}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   currentPage === 'admin'
-                    ? 'bg-orange-50 text-[#ff6b35]'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    ? 'bg-[#f43f5e]/10 text-[#f43f5e]'
+                    : 'text-gray-400 hover:bg-gray-800 hover:text-[#f43f5e]'
                 }`}
               >
                 <Shield size={16} />
@@ -143,12 +150,12 @@ function Navbar() {
           {/* Search Bar */}
           <form onSubmit={handleSearch} className="flex-1 max-w-md mx-4 hidden sm:block">
             <div className="relative">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
               <Input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search products... (try SQL injection!)"
-                className="pl-9 bg-gray-50 border-gray-200 focus:border-[#ff6b35] focus:ring-[#ff6b35]/20"
+                placeholder="Search the dark market... (try SQL injection!)"
+                className="pl-9 bg-[#111827] border-gray-700 text-gray-200 placeholder:text-gray-500 focus:border-[#00ffcc] focus:ring-[#00ffcc]/20"
               />
             </div>
           </form>
@@ -158,11 +165,11 @@ function Navbar() {
             {/* Cart */}
             <button
               onClick={() => navigate('cart')}
-              className="relative p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="relative p-2 rounded-lg hover:bg-gray-800 transition-colors"
             >
-              <ShoppingCart size={20} className="text-gray-600" />
+              <ShoppingCart size={20} className="text-gray-400" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#ff6b35] text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                <span className="absolute -top-1 -right-1 bg-[#f43f5e] text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
                   {cartCount}
                 </span>
               )}
@@ -172,29 +179,29 @@ function Navbar() {
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors">
+                  <button className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors">
                     <Avatar className="h-7 w-7">
-                      <AvatarFallback className="bg-[#ff6b35] text-white text-xs font-bold">
+                      <AvatarFallback className="bg-[#00ffcc]/20 text-[#00ffcc] text-xs font-bold">
                         {user.username[0].toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
-                    <span className="hidden md:inline text-sm font-medium text-gray-700">{user.username}</span>
+                    <span className="hidden md:inline text-sm font-medium text-gray-300">{user.username}</span>
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuItem onClick={() => navigate('profile')}>
+                <DropdownMenuContent align="end" className="w-48 bg-[#111827] border-gray-700">
+                  <DropdownMenuItem onClick={() => navigate('profile')} className="text-gray-300 focus:bg-gray-800 focus:text-gray-100">
                     <UserIcon size={14} className="mr-2" /> Profile
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate('orders')}>
+                  <DropdownMenuItem onClick={() => navigate('orders')} className="text-gray-300 focus:bg-gray-800 focus:text-gray-100">
                     <Package size={14} className="mr-2" /> My Orders
                   </DropdownMenuItem>
                   {user.role === 'admin' && (
-                    <DropdownMenuItem onClick={() => navigate('admin')}>
+                    <DropdownMenuItem onClick={() => navigate('admin')} className="text-[#f43f5e] focus:bg-gray-800">
                       <Shield size={14} className="mr-2" /> Admin Panel
                     </DropdownMenuItem>
                   )}
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => { logout(); toast.success('Logged out successfully') }}>
+                  <DropdownMenuSeparator className="bg-gray-700" />
+                  <DropdownMenuItem onClick={() => { logout(); toast.success('Disconnected from ShadowMart') }} className="text-gray-300 focus:bg-gray-800 focus:text-gray-100">
                     <LogOut size={14} className="mr-2" /> Logout
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -205,7 +212,7 @@ function Navbar() {
                   variant="ghost"
                   size="sm"
                   onClick={() => navigate('login')}
-                  className="text-gray-600"
+                  className="text-gray-400 hover:text-gray-200 hover:bg-gray-800"
                 >
                   <LogIn size={16} className="mr-1" />
                   Login
@@ -213,7 +220,7 @@ function Navbar() {
                 <Button
                   size="sm"
                   onClick={() => navigate('register')}
-                  className="bg-[#ff6b35] hover:bg-[#e55a2b] text-white"
+                  className="bg-[#00ffcc] hover:bg-[#00e6b8] text-[#0a0a0f] font-semibold"
                 >
                   Sign Up
                 </Button>
@@ -223,7 +230,7 @@ function Navbar() {
             {/* Mobile menu toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-gray-100"
+              className="md:hidden p-2 rounded-lg hover:bg-gray-800 text-gray-400"
             >
               {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -233,12 +240,12 @@ function Navbar() {
         {/* Mobile Search */}
         <form onSubmit={handleSearch} className="sm:hidden pb-3">
           <div className="relative">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
             <Input
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search products..."
-              className="pl-9 bg-gray-50"
+              placeholder="Search the dark market..."
+              className="pl-9 bg-[#111827] border-gray-700 text-gray-200 placeholder:text-gray-500"
             />
           </div>
         </form>
@@ -246,7 +253,7 @@ function Navbar() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-gray-200 bg-white">
+        <div className="md:hidden border-t border-gray-800 bg-[#0a0a0f]">
           <div className="p-4 space-y-1">
             {navLinks.map((link) => (
               <button
@@ -254,8 +261,8 @@ function Navbar() {
                 onClick={() => { navigate(link.page); setMobileMenuOpen(false) }}
                 className={`flex items-center gap-2 w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                   currentPage === link.page
-                    ? 'bg-orange-50 text-[#ff6b35]'
-                    : 'text-gray-600 hover:bg-gray-50'
+                    ? 'bg-[#00ffcc]/10 text-[#00ffcc]'
+                    : 'text-gray-400 hover:bg-gray-800'
                 }`}
               >
                 {link.icon}
@@ -265,7 +272,7 @@ function Navbar() {
             {user?.role === 'admin' && (
               <button
                 onClick={() => { navigate('admin'); setMobileMenuOpen(false) }}
-                className="flex items-center gap-2 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50"
+                className="flex items-center gap-2 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-[#f43f5e] hover:bg-gray-800"
               >
                 <Shield size={16} /> Admin
               </button>
@@ -274,13 +281,13 @@ function Navbar() {
               <>
                 <button
                   onClick={() => { navigate('orders'); setMobileMenuOpen(false) }}
-                  className="flex items-center gap-2 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50"
+                  className="flex items-center gap-2 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:bg-gray-800"
                 >
                   <Package size={16} /> My Orders
                 </button>
                 <button
-                  onClick={() => { logout(); setMobileMenuOpen(false); toast.success('Logged out') }}
-                  className="flex items-center gap-2 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50"
+                  onClick={() => { logout(); setMobileMenuOpen(false); toast.success('Disconnected') }}
+                  className="flex items-center gap-2 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-[#f43f5e] hover:bg-[#f43f5e]/10"
                 >
                   <LogOut size={16} /> Logout
                 </button>
@@ -296,42 +303,43 @@ function Navbar() {
 // ─── Footer ─────────────────────────────────────────────────────
 function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-300 mt-auto">
+    <footer className="bg-[#060608] border-t border-gray-800 text-gray-400 mt-auto">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <div className="flex items-center gap-2 text-white font-bold text-lg mb-3">
-              <span className="text-2xl">🍊</span>
-              Juice Shop
+              <span className="text-2xl">🔒</span>
+              <span className="text-[#00ffcc]">Shadow</span>
+              <span className="text-[#a855f7]">Mart</span>
             </div>
-            <p className="text-sm text-gray-400">
-              The most modern and sophisticated insecure web application.
+            <p className="text-sm text-gray-500">
+              The digital underground marketplace. Deliberately vulnerable for security training.
             </p>
           </div>
           <div>
-            <h4 className="font-semibold text-white mb-3">Quick Links</h4>
+            <h4 className="font-semibold text-gray-200 mb-3">Quick Links</h4>
             <ul className="space-y-2 text-sm">
-              <li><span className="text-gray-400 hover:text-white cursor-pointer">About</span></li>
-              <li><span className="text-gray-400 hover:text-white cursor-pointer">Contact</span></li>
-              <li><span className="text-gray-400 hover:text-white cursor-pointer">Privacy Policy</span></li>
-              <li><span className="text-gray-400 hover:text-white cursor-pointer">Terms of Service</span></li>
+              <li><span className="text-gray-500 hover:text-[#00ffcc] cursor-pointer transition-colors">About</span></li>
+              <li><span className="text-gray-500 hover:text-[#00ffcc] cursor-pointer transition-colors">Contact</span></li>
+              <li><span className="text-gray-500 hover:text-[#00ffcc] cursor-pointer transition-colors">Privacy Policy</span></li>
+              <li><span className="text-gray-500 hover:text-[#00ffcc] cursor-pointer transition-colors">Terms of Service</span></li>
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold text-white mb-3">Security</h4>
+            <h4 className="font-semibold text-gray-200 mb-3">Security</h4>
             <ul className="space-y-2 text-sm">
-              <li><span className="text-gray-400 hover:text-white cursor-pointer">OWASP Top 10</span></li>
-              <li><span className="text-gray-400 hover:text-white cursor-pointer">Security Challenges</span></li>
-              <li><span className="text-gray-400 hover:text-white cursor-pointer">Score Board</span></li>
+              <li><span className="text-gray-500 hover:text-[#00ffcc] cursor-pointer transition-colors">OWASP Top 10</span></li>
+              <li><span className="text-gray-500 hover:text-[#00ffcc] cursor-pointer transition-colors">Security Challenges</span></li>
+              <li><span className="text-gray-500 hover:text-[#00ffcc] cursor-pointer transition-colors">Score Board</span></li>
             </ul>
           </div>
         </div>
-        <Separator className="my-6 bg-gray-700" />
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
-          <p>&copy; 2024 OWASP Juice Shop. All rights reserved.</p>
+        <Separator className="my-6 bg-gray-800" />
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-600">
+          <p>&copy; 2024 ShadowMart. For educational purposes only.</p>
           <p className="flex items-center gap-1">
-            <AlertTriangle size={14} className="text-yellow-500" />
-            Powered by <span className="text-yellow-500 font-medium">vulnerable</span> code
+            <AlertTriangle size={14} className="text-[#f43f5e]" />
+            Powered by <span className="text-[#f43f5e] font-medium">vulnerable</span> code
           </p>
         </div>
       </div>
@@ -355,25 +363,27 @@ function ProductCard({ product, onNavigate }: { product: Product; onNavigate: (p
     toast.success(`${product.name} added to cart!`)
   }
 
+  const catMeta = categoryMeta[product.category] || { color: 'text-gray-400', bg: 'bg-gray-800' }
+
   return (
     <Card
-      className="group cursor-pointer hover:shadow-lg transition-all duration-300 overflow-hidden border-gray-200"
+      className="group cursor-pointer hover:shadow-lg hover:shadow-[#00ffcc]/5 transition-all duration-300 overflow-hidden bg-[#111827] border-gray-800 hover:border-[#00ffcc]/30"
       onClick={() => onNavigate('product', { id: product.id })}
     >
-      <div className="aspect-[4/3] overflow-hidden bg-gray-50">
+      <div className="aspect-[4/3] overflow-hidden bg-[#0a0a0f]">
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-80 group-hover:opacity-100"
         />
       </div>
       <CardContent className="p-4">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0 flex-1">
-            <h3 className="font-semibold text-gray-900 truncate">{product.name}</h3>
-            <p className="text-xs text-gray-500 mt-0.5">{product.category}</p>
+            <h3 className="font-semibold text-gray-100 truncate">{product.name}</h3>
+            <p className={`text-xs mt-0.5 ${catMeta.color}`}>{product.category}</p>
           </div>
-          <Badge variant="secondary" className="shrink-0 bg-[#ff6b35]/10 text-[#ff6b35] font-semibold">
+          <Badge variant="secondary" className="shrink-0 bg-[#00ffcc]/10 text-[#00ffcc] font-semibold border border-[#00ffcc]/20">
             ${product.price.toFixed(2)}
           </Badge>
         </div>
@@ -385,7 +395,7 @@ function ProductCard({ product, onNavigate }: { product: Product; onNavigate: (p
       <CardFooter className="p-4 pt-0">
         <Button
           onClick={handleAddToCart}
-          className="w-full bg-[#4caf50] hover:bg-[#43a047] text-white font-medium"
+          className="w-full bg-[#a855f7] hover:bg-[#9333ea] text-white font-medium"
           size="sm"
         >
           <ShoppingCart size={14} className="mr-2" />
@@ -410,45 +420,47 @@ function HomePage() {
   }, [])
 
   const featured = products.filter((p) => p.featured)
-  const categories = ['Juice', 'Smoothie', 'Fruit Basket', 'Accessory']
+  const categories = ['Exploit Kits', 'Cryptography', 'Zero-Day Archives', 'Digital Weapons']
 
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#ff6b35] via-[#ff8c42] to-[#4caf50] text-white">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 text-8xl">🍊</div>
-          <div className="absolute top-20 right-20 text-6xl">🍎</div>
-          <div className="absolute bottom-10 left-1/4 text-7xl">🍋</div>
-          <div className="absolute bottom-20 right-1/3 text-5xl">🫐</div>
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#0a0a0f] via-[#1a0a2e] to-[#0a1a2e] text-white">
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-10 left-10 text-8xl">🔒</div>
+          <div className="absolute top-20 right-20 text-6xl">💀</div>
+          <div className="absolute bottom-10 left-1/4 text-7xl">⚡</div>
+          <div className="absolute bottom-20 right-1/3 text-5xl">🌐</div>
         </div>
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2240%22%20height%3D%2240%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M0%200h40v40H0z%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22M0%2040L40%200%22%20stroke%3D%22%2300ffcc%22%20stroke-width%3D%220.3%22%20opacity%3D%220.1%22%2F%3E%3C%2Fsvg%3E')] opacity-30" />
         <div className="max-w-7xl mx-auto px-4 py-16 md:py-24 relative">
           <div className="max-w-2xl">
-            <Badge className="mb-4 bg-white/20 text-white border-white/30 hover:bg-white/30">
-              🏆 OWASP Security Training
+            <Badge className="mb-4 bg-[#00ffcc]/10 text-[#00ffcc] border-[#00ffcc]/30 hover:bg-[#00ffcc]/20">
+              🏴 Security Training Ground
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight">
               Welcome to<br />
-              <span className="text-yellow-200">Juice Shop!</span>
+              <span className="text-[#00ffcc] neon-glow-cyan">Shadow</span>
+              <span className="text-[#a855f7] neon-glow-purple">Mart</span>
             </h1>
-            <p className="text-lg md:text-xl text-white/90 mb-8">
-              The most modern and sophisticated insecure web application.
-              Shop for juices while learning about web security!
+            <p className="text-lg md:text-xl text-gray-300 mb-8">
+              The digital underground marketplace. Every transaction hides a vulnerability.
+              Can you find them all?
             </p>
             <div className="flex flex-wrap gap-3">
               <Button
                 size="lg"
                 onClick={() => document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-white text-[#ff6b35] hover:bg-gray-100 font-semibold"
+                className="bg-[#00ffcc] hover:bg-[#00e6b8] text-[#0a0a0f] font-semibold"
               >
                 <ShoppingBag size={18} className="mr-2" />
-                Start Shopping
+                Enter Market
               </Button>
               <Button
                 size="lg"
                 variant="outline"
                 onClick={() => navigate('challenges')}
-                className="border-white/50 text-white hover:bg-white/10"
+                className="border-[#a855f7]/50 text-[#a855f7] hover:bg-[#a855f7]/10 hover:text-[#c084fc]"
               >
                 <Trophy size={18} className="mr-2" />
                 View Challenges
@@ -459,18 +471,18 @@ function HomePage() {
       </section>
 
       {/* Stats Section */}
-      <section className="bg-white border-b border-gray-100">
+      <section className="bg-[#0d0d14] border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { label: 'Products', value: products.length, icon: <ShoppingBag size={24} className="text-[#ff6b35]" /> },
-              { label: 'Categories', value: '4', icon: <Citrus size={24} className="text-[#4caf50]" /> },
-              { label: 'Challenges', value: '17', icon: <Trophy size={24} className="text-yellow-500" /> },
-              { label: 'Vulnerabilities', value: 'Many!', icon: <AlertTriangle size={24} className="text-red-500" /> },
+              { label: 'Products', value: products.length, icon: <ShoppingBag size={24} className="text-[#00ffcc]" /> },
+              { label: 'Categories', value: '4', icon: <Bug size={24} className="text-[#a855f7]" /> },
+              { label: 'Challenges', value: '17', icon: <Trophy size={24} className="text-[#fbbf24]" /> },
+              { label: 'Vulnerabilities', value: 'Many!', icon: <AlertTriangle size={24} className="text-[#f43f5e]" /> },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <div className="flex justify-center mb-2">{stat.icon}</div>
-                <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
+                <div className="text-2xl font-bold text-gray-100">{stat.value}</div>
                 <div className="text-sm text-gray-500">{stat.label}</div>
               </div>
             ))}
@@ -480,14 +492,14 @@ function HomePage() {
 
       {/* Featured Products */}
       {featured.length > 0 && (
-        <section className="bg-gray-50 py-12">
+        <section className="bg-[#0a0a0f] py-12">
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">⭐ Featured Products</h2>
+              <h2 className="text-2xl font-bold text-gray-100">⚡ Featured Tools</h2>
               <Button
                 variant="ghost"
                 onClick={() => document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })}
-                className="text-[#ff6b35]"
+                className="text-[#00ffcc] hover:bg-[#00ffcc]/10"
               >
                 View All <ChevronRight size={16} />
               </Button>
@@ -504,12 +516,12 @@ function HomePage() {
       )}
 
       {/* Categories */}
-      <section className="py-12 bg-white">
+      <section className="py-12 bg-[#0d0d14]">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">🛍️ Shop by Category</h2>
+          <h2 className="text-2xl font-bold text-gray-100 mb-6">🗡️ Browse by Category</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {categories.map((cat) => {
-              const meta = categoryMeta[cat] || { icon: <Citrus size={32} />, color: 'text-gray-600', bg: 'bg-gray-50' }
+              const meta = categoryMeta[cat] || { icon: <Bug size={32} />, color: 'text-gray-400', bg: 'bg-gray-800', borderColor: 'border-gray-700' }
               const count = products.filter((p) => p.category === cat).length
               return (
                 <button
@@ -517,12 +529,12 @@ function HomePage() {
                   onClick={() => {
                     document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })
                   }}
-                  className={`${meta.bg} rounded-xl p-6 text-center hover:shadow-md transition-all border border-gray-100 group`}
+                  className={`${meta.bg} rounded-xl p-6 text-center hover:shadow-lg hover:shadow-[#00ffcc]/5 transition-all border ${meta.borderColor} group`}
                 >
                   <div className={`${meta.color} mb-3 flex justify-center group-hover:scale-110 transition-transform`}>
                     {meta.icon}
                   </div>
-                  <h3 className="font-semibold text-gray-900">{cat}</h3>
+                  <h3 className="font-semibold text-gray-200">{cat}</h3>
                   <p className="text-sm text-gray-500 mt-1">{count} products</p>
                 </button>
               )
@@ -532,7 +544,7 @@ function HomePage() {
       </section>
 
       {/* All Products */}
-      <section id="products-section" className="py-12 bg-gray-50">
+      <section id="products-section" className="py-12 bg-[#0a0a0f]">
         <div className="max-w-7xl mx-auto px-4">
           <ProductGrid products={products} loading={loading} />
         </div>
@@ -544,7 +556,7 @@ function HomePage() {
 // ─── Product Grid with Category Filter ──────────────────────────
 function ProductGrid({ products, loading }: { products: Product[]; loading: boolean }) {
   const [category, setCategory] = useState('All')
-  const categories = ['All', 'Juice', 'Smoothie', 'Fruit Basket', 'Accessory']
+  const categories = ['All', 'Exploit Kits', 'Cryptography', 'Zero-Day Archives', 'Digital Weapons']
   const { navigate } = useAppStore()
 
   const filtered = category === 'All' ? products : products.filter((p) => p.category === category)
@@ -553,11 +565,11 @@ function ProductGrid({ products, loading }: { products: Product[]; loading: bool
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {Array.from({ length: 8 }).map((_, i) => (
-          <Card key={i} className="overflow-hidden">
-            <div className="aspect-[4/3] bg-gray-200 animate-pulse" />
+          <Card key={i} className="overflow-hidden bg-[#111827] border-gray-800">
+            <div className="aspect-[4/3] bg-gray-800 animate-pulse" />
             <CardContent className="p-4">
-              <div className="h-4 bg-gray-200 rounded animate-pulse mb-2" />
-              <div className="h-3 bg-gray-100 rounded animate-pulse w-2/3" />
+              <div className="h-4 bg-gray-700 rounded animate-pulse mb-2" />
+              <div className="h-3 bg-gray-800 rounded animate-pulse w-2/3" />
             </CardContent>
           </Card>
         ))}
@@ -568,8 +580,8 @@ function ProductGrid({ products, loading }: { products: Product[]; loading: bool
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">🧃 All Products</h2>
-        <Badge variant="secondary" className="bg-gray-200">
+        <h2 className="text-2xl font-bold text-gray-100">🛒 All Products</h2>
+        <Badge variant="secondary" className="bg-gray-800 text-gray-400 border-gray-700">
           {filtered.length} items
         </Badge>
       </div>
@@ -581,8 +593,8 @@ function ProductGrid({ products, loading }: { products: Product[]; loading: bool
             onClick={() => setCategory(cat)}
             className={`px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
               category === cat
-                ? 'bg-[#ff6b35] text-white shadow-sm'
-                : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
+                ? 'bg-[#00ffcc] text-[#0a0a0f] shadow-sm shadow-[#00ffcc]/20'
+                : 'bg-[#111827] text-gray-400 hover:bg-gray-800 border border-gray-700'
             }`}
           >
             {cat}
@@ -614,13 +626,12 @@ function ProductDetailPage() {
   useEffect(() => {
     if (!productId) return
     getProduct(productId).then((data) => {
-      setProduct(data.product || null)
-      setReviews(data.product?.reviews || [])
+      setProduct(data.product || data || null)
+      setReviews(data.product?.reviews || data.reviews || [])
       setFetching(false)
     })
   }, [productId])
 
-  // Also fetch reviews separately to get the full list
   useEffect(() => {
     if (!productId) return
     getReviews(productId).then((data) => {
@@ -676,11 +687,11 @@ function ProductDetailPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid md:grid-cols-2 gap-8">
-          <div className="aspect-square bg-gray-200 animate-pulse rounded-xl" />
+          <div className="aspect-square bg-gray-800 animate-pulse rounded-xl" />
           <div className="space-y-4">
-            <div className="h-8 bg-gray-200 rounded animate-pulse" />
-            <div className="h-4 bg-gray-100 rounded animate-pulse w-2/3" />
-            <div className="h-4 bg-gray-100 rounded animate-pulse w-1/3" />
+            <div className="h-8 bg-gray-800 rounded animate-pulse" />
+            <div className="h-4 bg-gray-700 rounded animate-pulse w-2/3" />
+            <div className="h-4 bg-gray-700 rounded animate-pulse w-1/3" />
           </div>
         </div>
       </div>
@@ -690,71 +701,73 @@ function ProductDetailPage() {
   if (!product) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
-        <p className="text-gray-500">Product not found</p>
-        <Button onClick={() => navigate('home')} className="mt-4">Go Home</Button>
+        <p className="text-gray-400">Product not found</p>
+        <Button onClick={() => navigate('home')} className="mt-4 bg-[#00ffcc] hover:bg-[#00e6b8] text-[#0a0a0f]">Go Home</Button>
       </div>
     )
   }
+
+  const catMeta = categoryMeta[product.category] || { color: 'text-gray-400', bg: 'bg-gray-800' }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Back button */}
       <button
         onClick={() => navigate('home')}
-        className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-6 transition-colors"
+        className="flex items-center gap-1 text-sm text-gray-500 hover:text-[#00ffcc] mb-6 transition-colors"
       >
-        <ArrowLeft size={16} /> Back to Products
+        <ArrowLeft size={16} /> Back to Market
       </button>
 
       <div className="grid md:grid-cols-2 gap-8">
         {/* Image */}
-        <div className="bg-gray-50 rounded-xl overflow-hidden">
-          <img src={product.image} alt={product.name} className="w-full h-auto object-cover" />
+        <div className="bg-[#0a0a0f] rounded-xl overflow-hidden border border-gray-800">
+          <img src={product.image} alt={product.name} className="w-full h-auto object-cover opacity-90" />
         </div>
 
         {/* Details */}
         <div>
-          <Badge variant="secondary" className="mb-3">{product.category}</Badge>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
+          <Badge variant="secondary" className={`mb-3 ${catMeta.bg} ${catMeta.color} border border-gray-700`}>{product.category}</Badge>
+          <h1 className="text-3xl font-bold text-gray-100 mb-2">{product.name}</h1>
           <div className="flex items-center gap-3 mb-4">
             <StarRating rating={Math.round(product.rating)} />
-            <span className="text-sm text-gray-500">{product.rating} out of 5</span>
-            <span className="text-sm text-gray-400">({reviews.length} reviews)</span>
+            <span className="text-sm text-gray-400">{product.rating} out of 5</span>
+            <span className="text-sm text-gray-500">({reviews.length} reviews)</span>
           </div>
-          <div className="text-3xl font-bold text-[#ff6b35] mb-4">${product.price.toFixed(2)}</div>
-          <p className="text-gray-600 mb-6 leading-relaxed">{product.description}</p>
+          <div className="text-3xl font-bold text-[#00ffcc] mb-4">${product.price.toFixed(2)}</div>
+          <p className="text-gray-400 mb-6 leading-relaxed">{product.description}</p>
 
           {/* Stock */}
           <div className="flex items-center gap-2 mb-4 text-sm">
             {product.stock > 0 ? (
-              <Badge variant="secondary" className="bg-green-50 text-green-700">
+              <Badge variant="secondary" className="bg-[#22c55e]/10 text-[#22c55e] border border-[#22c55e]/20">
                 <CheckCircle2 size={12} className="mr-1" /> In Stock ({product.stock})
               </Badge>
             ) : (
-              <Badge variant="secondary" className="bg-red-50 text-red-700">Out of Stock</Badge>
+              <Badge variant="secondary" className="bg-[#f43f5e]/10 text-[#f43f5e] border border-[#f43f5e]/20">Out of Stock</Badge>
             )}
           </div>
 
           {/* Add to cart */}
           <div className="flex items-center gap-4 mb-6">
-            <div className="flex items-center border border-gray-200 rounded-lg">
+            <div className="flex items-center border border-gray-700 rounded-lg bg-[#111827]">
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="p-2 hover:bg-gray-50 transition-colors rounded-l-lg"
+                className="p-2 hover:bg-gray-800 transition-colors rounded-l-lg text-gray-400"
               >
                 <Minus size={16} />
               </button>
-              <span className="px-4 font-medium">{quantity}</span>
+              <span className="px-4 font-medium text-gray-200">{quantity}</span>
               <button
                 onClick={() => setQuantity(quantity + 1)}
-                className="p-2 hover:bg-gray-50 transition-colors rounded-r-lg"
+                className="p-2 hover:bg-gray-800 transition-colors rounded-r-lg text-gray-400"
               >
                 <Plus size={16} />
               </button>
             </div>
             <Button
               onClick={handleAddToCart}
-              className="flex-1 bg-[#4caf50] hover:bg-[#43a047] text-white font-semibold"
+              className="flex-1 bg-[#a855f7] hover:bg-[#9333ea] text-white font-semibold"
               size="lg"
             >
               <ShoppingCart size={18} className="mr-2" />
@@ -762,21 +775,21 @@ function ProductDetailPage() {
             </Button>
           </div>
 
-          <Separator className="my-6" />
+          <Separator className="my-6 bg-gray-800" />
 
           {/* Quick Info */}
           <div className="grid grid-cols-2 gap-4 text-sm">
-            <div className="flex items-center gap-2 text-gray-600">
-              <Truck size={16} className="text-[#4caf50]" /> Free shipping over $25
+            <div className="flex items-center gap-2 text-gray-400">
+              <Terminal size={16} className="text-[#00ffcc]" /> Encrypted delivery
             </div>
-            <div className="flex items-center gap-2 text-gray-600">
-              <Zap size={16} className="text-yellow-500" /> Fast delivery
+            <div className="flex items-center gap-2 text-gray-400">
+              <Zap size={16} className="text-[#fbbf24]" /> Instant download
             </div>
-            <div className="flex items-center gap-2 text-gray-600">
-              <Shield size={16} className="text-blue-500" /> Quality guarantee
+            <div className="flex items-center gap-2 text-gray-400">
+              <Shield size={16} className="text-[#a855f7]" /> Stealth packaging
             </div>
-            <div className="flex items-center gap-2 text-gray-600">
-              <Heart size={16} className="text-red-500" /> 100% natural
+            <div className="flex items-center gap-2 text-gray-400">
+              <Fingerprint size={16} className="text-[#f43f5e]" /> Anonymous checkout
             </div>
           </div>
         </div>
@@ -784,34 +797,34 @@ function ProductDetailPage() {
 
       {/* Reviews Section */}
       <div className="mt-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Customer Reviews</h2>
+        <h2 className="text-2xl font-bold text-gray-100 mb-6">User Reviews</h2>
 
         {/* Add Review Form */}
-        <Card className="mb-6 border-gray-200">
+        <Card className="mb-6 bg-[#111827] border-gray-800">
           <CardHeader>
-            <CardTitle className="text-lg">Write a Review</CardTitle>
+            <CardTitle className="text-lg text-gray-100">Write a Review</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <Label>Rating</Label>
+              <Label className="text-gray-300">Rating</Label>
               <div className="mt-1">
                 <StarRating rating={newRating} onChange={setNewRating} size={24} />
               </div>
             </div>
             <div>
-              <Label>Comment</Label>
+              <Label className="text-gray-300">Comment</Label>
               <Textarea
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder="Write your review here... (HTML is allowed! 😈)"
-                className="mt-1"
+                className="mt-1 bg-[#0a0a0f] border-gray-700 text-gray-200 placeholder:text-gray-600"
                 rows={3}
               />
             </div>
             <Button
               onClick={handleSubmitReview}
               disabled={submittingReview}
-              className="bg-[#ff6b35] hover:bg-[#e55a2b] text-white"
+              className="bg-[#00ffcc] hover:bg-[#00e6b8] text-[#0a0a0f] font-semibold"
             >
               {submittingReview ? 'Submitting...' : 'Submit Review'}
             </Button>
@@ -824,17 +837,17 @@ function ProductDetailPage() {
             <p className="text-gray-500 text-center py-8">No reviews yet. Be the first to review!</p>
           ) : (
             reviews.map((review) => (
-              <Card key={review.id} className="border-gray-200">
+              <Card key={review.id} className="bg-[#111827] border-gray-800">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <Avatar className="h-8 w-8">
-                        <AvatarFallback className="bg-orange-100 text-orange-700 text-xs">
+                        <AvatarFallback className="bg-[#00ffcc]/10 text-[#00ffcc] text-xs">
                           {review.user?.username?.[0]?.toUpperCase() || '?'}
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <span className="font-medium text-sm text-gray-900">
+                        <span className="font-medium text-sm text-gray-200">
                           {review.user?.username || 'Anonymous'}
                         </span>
                         <div className="flex items-center gap-1">
@@ -842,13 +855,13 @@ function ProductDetailPage() {
                         </div>
                       </div>
                     </div>
-                    <span className="text-xs text-gray-400">
+                    <span className="text-xs text-gray-600">
                       {new Date(review.createdAt).toLocaleDateString()}
                     </span>
                   </div>
                   {/* XSS Vulnerability: Rendering HTML from user comments */}
                   <div
-                    className="text-sm text-gray-700 mt-2"
+                    className="text-sm text-gray-400 mt-2"
                     dangerouslySetInnerHTML={{ __html: review.comment }}
                   />
                 </CardContent>
@@ -893,7 +906,6 @@ function SearchPage() {
     doSearch(localQuery)
   }
 
-  // Auto-search on initial mount if there's a query
   const hasAutoSearchedRef = useRef(false)
   useEffect(() => {
     if (initialQuery && !hasAutoSearchedRef.current) {
@@ -905,55 +917,55 @@ function SearchPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">
-        <Search size={24} className="inline mr-2" />
-        Search Products
+      <h1 className="text-2xl font-bold text-gray-100 mb-6">
+        <Search size={24} className="inline mr-2 text-[#00ffcc]" />
+        Search the Market
       </h1>
 
       <form onSubmit={handleSearch} className="flex gap-3 mb-8">
         <div className="flex-1 relative">
-          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
           <Input
             value={localQuery}
             onChange={(e) => setLocalQuery(e.target.value)}
-            placeholder="Search for products... (try: ' OR 1=1--)"
-            className="pl-9"
+            placeholder="Search for tools... (try: ' OR 1=1--)"
+            className="pl-9 bg-[#111827] border-gray-700 text-gray-200 placeholder:text-gray-500 focus:border-[#00ffcc] focus:ring-[#00ffcc]/20"
           />
         </div>
-        <Button type="submit" className="bg-[#ff6b35] hover:bg-[#e55a2b] text-white">
+        <Button type="submit" className="bg-[#00ffcc] hover:bg-[#00e6b8] text-[#0a0a0f] font-semibold">
           Search
         </Button>
       </form>
 
       {/* XSS: Reflect search query unsafely */}
       {localQuery && (
-        <div className="mb-6 text-sm text-gray-600">
+        <div className="mb-6 text-sm text-gray-400">
           Showing results for:{' '}
-          <span dangerouslySetInnerHTML={{ __html: localQuery }} className="font-medium text-gray-900" />
+          <span dangerouslySetInnerHTML={{ __html: localQuery }} className="font-medium text-[#00ffcc]" />
         </div>
       )}
 
       {/* SQL Injection Results */}
       {meta && (
-        <Card className="mb-6 border-red-200 bg-red-50">
+        <Card className="mb-6 border-[#f43f5e]/30 bg-[#f43f5e]/5">
           <CardHeader>
-            <CardTitle className="text-red-800 flex items-center gap-2">
+            <CardTitle className="text-[#f43f5e] flex items-center gap-2">
               <AlertTriangle size={20} />
               SQL Injection Detected!
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-red-700 mb-3">{String((meta as Record<string, unknown>).message || '')}</p>
-            <div className="bg-white rounded-lg p-4 mb-3">
+            <p className="text-sm text-[#f43f5e]/80 mb-3">{String((meta as Record<string, unknown>).message || '')}</p>
+            <div className="bg-[#0a0a0f] rounded-lg p-4 mb-3 border border-gray-800">
               <p className="text-xs text-gray-500 mb-1 font-semibold">Injected Query:</p>
-              <code className="text-xs text-red-600 font-mono break-all">
+              <code className="text-xs text-[#f43f5e] font-mono break-all">
                 {String((meta as Record<string, unknown>).injectedQuery || '')}
               </code>
             </div>
-            <div className="bg-white rounded-lg p-4">
+            <div className="bg-[#0a0a0f] rounded-lg p-4 border border-gray-800">
               <p className="text-xs text-gray-500 mb-2 font-semibold">Exposed User Data:</p>
               <div className="overflow-x-auto">
-                <pre className="text-xs text-gray-800 font-mono whitespace-pre-wrap max-h-64 overflow-y-auto">
+                <pre className="text-xs text-gray-300 font-mono whitespace-pre-wrap max-h-64 overflow-y-auto">
                   {JSON.stringify((meta as Record<string, unknown>).exposedUsers, null, 2)}
                 </pre>
               </div>
@@ -965,10 +977,10 @@ function SearchPage() {
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {Array.from({ length: 4 }).map((_, i) => (
-            <Card key={i} className="overflow-hidden">
-              <div className="aspect-[4/3] bg-gray-200 animate-pulse" />
+            <Card key={i} className="overflow-hidden bg-[#111827] border-gray-800">
+              <div className="aspect-[4/3] bg-gray-800 animate-pulse" />
               <CardContent className="p-4">
-                <div className="h-4 bg-gray-200 rounded animate-pulse" />
+                <div className="h-4 bg-gray-700 rounded animate-pulse" />
               </CardContent>
             </Card>
           ))}
@@ -984,9 +996,9 @@ function SearchPage() {
           ) : (
             localQuery && (
               <div className="text-center py-16">
-                <Search size={48} className="mx-auto text-gray-300 mb-4" />
-                <h3 className="text-lg font-semibold text-gray-700">No results found</h3>
-                <p className="text-gray-500">Try a different search term</p>
+                <Search size={48} className="mx-auto text-gray-700 mb-4" />
+                <h3 className="text-lg font-semibold text-gray-400">No results found</h3>
+                <p className="text-gray-600">Try a different search term</p>
               </div>
             )
           )}
@@ -1034,27 +1046,27 @@ function LoginPage() {
 
   return (
     <div className="min-h-[60vh] flex items-center justify-center px-4 py-12">
-      <Card className="w-full max-w-md border-gray-200 shadow-lg">
+      <Card className="w-full max-w-md bg-[#111827] border-gray-800 shadow-xl shadow-[#00ffcc]/5">
         <CardHeader className="text-center">
-          <div className="text-4xl mb-2">🍊</div>
-          <CardTitle className="text-2xl">Welcome Back</CardTitle>
-          <p className="text-sm text-gray-500">Sign in to your Juice Shop account</p>
+          <div className="text-4xl mb-2">🔒</div>
+          <CardTitle className="text-2xl text-gray-100">Access Terminal</CardTitle>
+          <p className="text-sm text-gray-500">Sign in to your ShadowMart account</p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-gray-300">Email</Label>
               <Input
                 id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@juice-sh.op"
-                className="mt-1"
+                placeholder="you@shadowmart.dark"
+                className="mt-1 bg-[#0a0a0f] border-gray-700 text-gray-200 placeholder:text-gray-600 focus:border-[#00ffcc] focus:ring-[#00ffcc]/20"
               />
             </div>
             <div>
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-gray-300">Password</Label>
               <div className="relative mt-1">
                 <Input
                   id="password"
@@ -1062,11 +1074,12 @@ function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
+                  className="bg-[#0a0a0f] border-gray-700 text-gray-200 placeholder:text-gray-600 focus:border-[#00ffcc] focus:ring-[#00ffcc]/20"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
                 >
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
@@ -1074,40 +1087,40 @@ function LoginPage() {
             </div>
             <Button
               type="submit"
-              className="w-full bg-[#ff6b35] hover:bg-[#e55a2b] text-white font-semibold"
+              className="w-full bg-[#00ffcc] hover:bg-[#00e6b8] text-[#0a0a0f] font-semibold"
               disabled={loading}
             >
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? 'Authenticating...' : 'Sign In'}
             </Button>
           </form>
 
           <div className="mt-4 text-center">
-            <button className="text-sm text-[#ff6b35] hover:underline">
+            <button className="text-sm text-[#a855f7] hover:underline">
               Forgot password?
             </button>
           </div>
 
-          <Separator className="my-4" />
+          <Separator className="my-4 bg-gray-800" />
 
           <div className="text-center">
             <span className="text-sm text-gray-500">Don&apos;t have an account? </span>
             <button
               onClick={() => navigate('register')}
-              className="text-sm text-[#ff6b35] hover:underline font-medium"
+              className="text-sm text-[#00ffcc] hover:underline font-medium"
             >
               Sign Up
             </button>
           </div>
 
           {/* Demo hint */}
-          <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-            <p className="text-xs text-yellow-700 flex items-start gap-2">
+          <div className="mt-4 p-3 bg-[#f43f5e]/5 border border-[#f43f5e]/20 rounded-lg">
+            <p className="text-xs text-[#f43f5e]/80 flex items-start gap-2">
               <AlertTriangle size={14} className="shrink-0 mt-0.5" />
               <span>
-                <strong>Demo:</strong> admin@juice-sh.op / admin123
+                <strong>Demo:</strong> admin@shadowmart.dark / admin123
                 <br />
                 <em>Or try SQL injection: </em>
-                <code className="bg-yellow-100 px-1 rounded text-yellow-800">&apos; OR 1=1--</code>
+                <code className="bg-[#f43f5e]/10 px-1 rounded text-[#f43f5e]">&apos; OR 1=1--</code>
               </span>
             </p>
           </div>
@@ -1165,94 +1178,94 @@ function RegisterPage() {
 
   return (
     <div className="min-h-[60vh] flex items-center justify-center px-4 py-12">
-      <Card className="w-full max-w-md border-gray-200 shadow-lg">
+      <Card className="w-full max-w-md bg-[#111827] border-gray-800 shadow-xl shadow-[#a855f7]/5">
         <CardHeader className="text-center">
-          <div className="text-4xl mb-2">🍊</div>
-          <CardTitle className="text-2xl">Create Account</CardTitle>
-          <p className="text-sm text-gray-500">Join the Juice Shop community</p>
+          <div className="text-4xl mb-2">🔒</div>
+          <CardTitle className="text-2xl text-gray-100">Create Identity</CardTitle>
+          <p className="text-sm text-gray-500">Join the ShadowMart underground</p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleRegister} className="space-y-4">
             <div>
-              <Label htmlFor="reg-email">Email</Label>
+              <Label htmlFor="reg-email" className="text-gray-300">Email</Label>
               <Input
                 id="reg-email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@juice-sh.op"
-                className="mt-1"
+                placeholder="you@shadowmart.dark"
+                className="mt-1 bg-[#0a0a0f] border-gray-700 text-gray-200 placeholder:text-gray-600 focus:border-[#a855f7] focus:ring-[#a855f7]/20"
               />
             </div>
             <div>
-              <Label htmlFor="reg-username">Username</Label>
+              <Label htmlFor="reg-username" className="text-gray-300">Username</Label>
               <Input
                 id="reg-username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="juicelover42"
-                className="mt-1"
+                placeholder="ghost_hacker42"
+                className="mt-1 bg-[#0a0a0f] border-gray-700 text-gray-200 placeholder:text-gray-600 focus:border-[#a855f7] focus:ring-[#a855f7]/20"
               />
             </div>
             <div>
-              <Label htmlFor="reg-password">Password</Label>
+              <Label htmlFor="reg-password" className="text-gray-300">Password</Label>
               <Input
                 id="reg-password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Choose a password"
-                className="mt-1"
+                className="mt-1 bg-[#0a0a0f] border-gray-700 text-gray-200 placeholder:text-gray-600 focus:border-[#a855f7] focus:ring-[#a855f7]/20"
               />
             </div>
             <div>
-              <Label htmlFor="reg-confirm">Confirm Password</Label>
+              <Label htmlFor="reg-confirm" className="text-gray-300">Confirm Password</Label>
               <Input
                 id="reg-confirm"
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Confirm your password"
-                className="mt-1"
+                className="mt-1 bg-[#0a0a0f] border-gray-700 text-gray-200 placeholder:text-gray-600 focus:border-[#a855f7] focus:ring-[#a855f7]/20"
               />
             </div>
             {/* Hidden role field - Mass Assignment vulnerability */}
             <input type="hidden" value={role} />
             {/* Intentionally exposed - a curious user might find this */}
             <div className="opacity-0 h-0 overflow-hidden">
-              <Label htmlFor="reg-role">Role (admin?)</Label>
+              <Label htmlFor="reg-role" className="text-gray-300">Role (admin?)</Label>
               <Input
                 id="reg-role"
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
                 placeholder="customer"
-                className="mt-1"
+                className="mt-1 bg-[#0a0a0f] border-gray-700 text-gray-200"
               />
             </div>
             <Button
               type="submit"
-              className="w-full bg-[#4caf50] hover:bg-[#43a047] text-white font-semibold"
+              className="w-full bg-[#a855f7] hover:bg-[#9333ea] text-white font-semibold"
               disabled={loading}
             >
-              {loading ? 'Creating Account...' : 'Create Account'}
+              {loading ? 'Creating Identity...' : 'Create Account'}
             </Button>
           </form>
 
-          <Separator className="my-4" />
+          <Separator className="my-4 bg-gray-800" />
 
           <div className="text-center">
             <span className="text-sm text-gray-500">Already have an account? </span>
             <button
               onClick={() => navigate('login')}
-              className="text-sm text-[#ff6b35] hover:underline font-medium"
+              className="text-sm text-[#00ffcc] hover:underline font-medium"
             >
               Sign In
             </button>
           </div>
 
           {/* Hint */}
-          <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-            <p className="text-xs text-blue-700 flex items-start gap-2">
+          <div className="mt-4 p-3 bg-[#a855f7]/5 border border-[#a855f7]/20 rounded-lg">
+            <p className="text-xs text-[#a855f7]/80 flex items-start gap-2">
               <Lock size={14} className="shrink-0 mt-0.5" />
               <span>
                 <strong>Security Tip:</strong> Try inspecting the form elements — you might find something interesting! 😉
@@ -1271,7 +1284,7 @@ function CartPage() {
   const [ordering, setOrdering] = useState(false)
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  const shipping = subtotal > 25 ? 0 : 4.99
+  const shipping = subtotal > 100 ? 0 : 9.99
   const total = subtotal + shipping
 
   const handleCheckout = async () => {
@@ -1308,14 +1321,14 @@ function CartPage() {
   if (cart.length === 0) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
-        <ShoppingCart size={64} className="mx-auto text-gray-300 mb-4" />
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h2>
-        <p className="text-gray-500 mb-6">Add some delicious juices to get started!</p>
+        <ShoppingCart size={64} className="mx-auto text-gray-700 mb-4" />
+        <h2 className="text-2xl font-bold text-gray-200 mb-2">Your cart is empty</h2>
+        <p className="text-gray-500 mb-6">Browse the market and add some tools to your cart</p>
         <Button
           onClick={() => navigate('home')}
-          className="bg-[#ff6b35] hover:bg-[#e55a2b] text-white"
+          className="bg-[#00ffcc] hover:bg-[#00e6b8] text-[#0a0a0f]"
         >
-          Browse Products
+          Browse Market
         </Button>
       </div>
     )
@@ -1323,8 +1336,8 @@ function CartPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">
-        <ShoppingCart size={24} className="inline mr-2" />
+      <h1 className="text-2xl font-bold text-gray-100 mb-6">
+        <ShoppingCart size={24} className="inline mr-2 text-[#00ffcc]" />
         Shopping Cart ({cart.length} items)
       </h1>
 
@@ -1332,34 +1345,34 @@ function CartPage() {
         {/* Cart Items */}
         <div className="lg:col-span-2 space-y-4">
           {cart.map((item) => (
-            <Card key={item.productId} className="border-gray-200">
+            <Card key={item.productId} className="bg-[#111827] border-gray-800">
               <CardContent className="p-4">
                 <div className="flex gap-4">
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-20 h-20 object-cover rounded-lg bg-gray-50"
+                    className="w-20 h-20 object-cover rounded-lg bg-[#0a0a0f]"
                   />
                   <div className="flex-1 min-w-0">
                     <h3
-                      className="font-semibold text-gray-900 cursor-pointer hover:text-[#ff6b35] transition-colors"
+                      className="font-semibold text-gray-200 cursor-pointer hover:text-[#00ffcc] transition-colors"
                       onClick={() => navigate('product', { id: item.productId })}
                     >
                       {item.name}
                     </h3>
-                    <p className="text-[#ff6b35] font-bold">${item.price.toFixed(2)}</p>
+                    <p className="text-[#00ffcc] font-bold">${item.price.toFixed(2)}</p>
                     <div className="flex items-center gap-3 mt-2">
-                      <div className="flex items-center border border-gray-200 rounded">
+                      <div className="flex items-center border border-gray-700 rounded bg-[#0a0a0f]">
                         <button
                           onClick={() => updateQuantity(item.productId, Math.max(1, item.quantity - 1))}
-                          className="p-1.5 hover:bg-gray-50 transition-colors"
+                          className="p-1.5 hover:bg-gray-800 transition-colors text-gray-400"
                         >
                           <Minus size={14} />
                         </button>
-                        <span className="px-3 text-sm font-medium">{item.quantity}</span>
+                        <span className="px-3 text-sm font-medium text-gray-200">{item.quantity}</span>
                         <button
                           onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                          className="p-1.5 hover:bg-gray-50 transition-colors"
+                          className="p-1.5 hover:bg-gray-800 transition-colors text-gray-400"
                         >
                           <Plus size={14} />
                         </button>
@@ -1369,14 +1382,14 @@ function CartPage() {
                           removeFromCart(item.productId)
                           toast.success('Item removed from cart')
                         }}
-                        className="text-red-400 hover:text-red-600 transition-colors"
+                        className="text-[#f43f5e] hover:text-[#fb7185] transition-colors"
                       >
                         <Trash2 size={16} />
                       </button>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="font-bold text-gray-900">
+                    <span className="font-bold text-gray-200">
                       ${(item.price * item.quantity).toFixed(2)}
                     </span>
                   </div>
@@ -1388,33 +1401,33 @@ function CartPage() {
 
         {/* Order Summary */}
         <div>
-          <Card className="border-gray-200 sticky top-20">
+          <Card className="bg-[#111827] border-gray-800 sticky top-20">
             <CardHeader>
-              <CardTitle className="text-lg">Order Summary</CardTitle>
+              <CardTitle className="text-lg text-gray-100">Order Summary</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex justify-between text-sm">
                 <span className="text-gray-500">Subtotal</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span className="text-gray-200">${subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-gray-500">Shipping</span>
-                <span>{shipping === 0 ? <span className="text-green-600">Free</span> : `$${shipping.toFixed(2)}`}</span>
+                <span className="text-gray-200">{shipping === 0 ? <span className="text-[#22c55e]">Free</span> : `$${shipping.toFixed(2)}`}</span>
               </div>
-              <Separator />
+              <Separator className="bg-gray-800" />
               <div className="flex justify-between font-bold text-lg">
-                <span>Total</span>
-                <span className="text-[#ff6b35]">${total.toFixed(2)}</span>
+                <span className="text-gray-200">Total</span>
+                <span className="text-[#00ffcc]">${total.toFixed(2)}</span>
               </div>
               {shipping > 0 && (
-                <p className="text-xs text-gray-400">
-                  Add ${(25 - subtotal).toFixed(2)} more for free shipping
+                <p className="text-xs text-gray-600">
+                  Add ${(100 - subtotal).toFixed(2)} more for free shipping
                 </p>
               )}
               <Button
                 onClick={handleCheckout}
                 disabled={ordering}
-                className="w-full bg-[#4caf50] hover:bg-[#43a047] text-white font-semibold mt-2"
+                className="w-full bg-[#a855f7] hover:bg-[#9333ea] text-white font-semibold mt-2"
                 size="lg"
               >
                 {ordering ? 'Processing...' : 'Checkout'}
@@ -1422,7 +1435,7 @@ function CartPage() {
               <Button
                 onClick={() => { clearCart(); toast.success('Cart cleared') }}
                 variant="outline"
-                className="w-full mt-2"
+                className="w-full mt-2 border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-gray-200"
                 size="sm"
               >
                 Clear Cart
@@ -1453,10 +1466,10 @@ function OrdersPage() {
   if (!user) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
-        <Lock size={48} className="mx-auto text-gray-300 mb-4" />
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Please Login</h2>
+        <Lock size={48} className="mx-auto text-gray-700 mb-4" />
+        <h2 className="text-2xl font-bold text-gray-200 mb-2">Access Required</h2>
         <p className="text-gray-500 mb-6">You need to be logged in to view your orders.</p>
-        <Button onClick={() => navigate('login')} className="bg-[#ff6b35] hover:bg-[#e55a2b] text-white">
+        <Button onClick={() => navigate('login')} className="bg-[#00ffcc] hover:bg-[#00e6b8] text-[#0a0a0f]">
           Login
         </Button>
       </div>
@@ -1464,16 +1477,16 @@ function OrdersPage() {
   }
 
   const statusConfig: Record<string, { icon: React.ReactNode; color: string }> = {
-    pending: { icon: <Clock size={14} />, color: 'bg-yellow-100 text-yellow-700' },
-    shipped: { icon: <Truck size={14} />, color: 'bg-blue-100 text-blue-700' },
-    delivered: { icon: <CheckCircle2 size={14} />, color: 'bg-green-100 text-green-700' },
+    pending: { icon: <Clock size={14} />, color: 'bg-[#fbbf24]/20 text-[#fbbf24]' },
+    shipped: { icon: <Truck size={14} />, color: 'bg-[#00ffcc]/20 text-[#00ffcc]' },
+    delivered: { icon: <CheckCircle2 size={14} />, color: 'bg-[#22c55e]/20 text-[#22c55e]' },
   }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">
-          <Package size={24} className="inline mr-2" />
+        <h1 className="text-2xl font-bold text-gray-100">
+          <Package size={24} className="inline mr-2 text-[#a855f7]" />
           My Orders
         </h1>
         {/* IDOR Vulnerability: Toggle to see all orders */}
@@ -1481,7 +1494,7 @@ function OrdersPage() {
           variant={showAll ? 'default' : 'outline'}
           size="sm"
           onClick={() => setShowAll(!showAll)}
-          className={showAll ? 'bg-red-500 hover:bg-red-600 text-white' : ''}
+          className={showAll ? 'bg-[#f43f5e] hover:bg-[#e11d48] text-white' : 'border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-gray-200'}
         >
           {showAll ? '🔒 Viewing All Orders (IDOR!)' : '👁️ View All Orders'}
         </Button>
@@ -1490,32 +1503,32 @@ function OrdersPage() {
       {loading ? (
         <div className="space-y-4">
           {Array.from({ length: 3 }).map((_, i) => (
-            <Card key={i} className="animate-pulse">
+            <Card key={i} className="animate-pulse bg-[#111827] border-gray-800">
               <CardContent className="p-6">
-                <div className="h-4 bg-gray-200 rounded w-1/3 mb-4" />
-                <div className="h-3 bg-gray-100 rounded w-1/2" />
+                <div className="h-4 bg-gray-700 rounded w-1/3 mb-4" />
+                <div className="h-3 bg-gray-800 rounded w-1/2" />
               </CardContent>
             </Card>
           ))}
         </div>
       ) : orders.length === 0 ? (
         <div className="text-center py-16">
-          <Package size={48} className="mx-auto text-gray-300 mb-4" />
-          <h3 className="text-lg font-semibold text-gray-700">No orders yet</h3>
-          <p className="text-gray-500">Start shopping to create your first order!</p>
+          <Package size={48} className="mx-auto text-gray-700 mb-4" />
+          <h3 className="text-lg font-semibold text-gray-400">No orders yet</h3>
+          <p className="text-gray-600">Start shopping to create your first order!</p>
         </div>
       ) : (
         <div className="space-y-4">
           {orders.map((order) => {
             const status = statusConfig[order.status] || statusConfig.pending
             return (
-              <Card key={order.id} className="border-gray-200">
+              <Card key={order.id} className="bg-[#111827] border-gray-800">
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="font-semibold text-gray-900">Order #{order.id.slice(-6)}</span>
-                        <Badge className={`${status.color} text-xs`}>
+                        <span className="font-semibold text-gray-200">Order #{order.id.slice(-6)}</span>
+                        <Badge className={`${status.color} text-xs border-0`}>
                           {status.icon}
                           <span className="ml-1 capitalize">{order.status}</span>
                         </Badge>
@@ -1524,18 +1537,18 @@ function OrdersPage() {
                         {new Date(order.createdAt).toLocaleDateString()} · {order.items?.length || 0} items
                       </p>
                       {order.user && showAll && (
-                        <p className="text-xs text-red-500 mt-1">
+                        <p className="text-xs text-[#f43f5e] mt-1">
                           👤 {order.user.username} ({order.user.email})
                         </p>
                       )}
                     </div>
-                    <span className="text-xl font-bold text-[#ff6b35]">${order.total.toFixed(2)}</span>
+                    <span className="text-xl font-bold text-[#00ffcc]">${order.total.toFixed(2)}</span>
                   </div>
                   {order.items && order.items.length > 0 && (
-                    <div className="border-t border-gray-100 pt-3 space-y-2">
+                    <div className="border-t border-gray-800 pt-3 space-y-2">
                       {order.items.map((item) => (
                         <div key={item.id} className="flex items-center justify-between text-sm">
-                          <span className="text-gray-700">
+                          <span className="text-gray-400">
                             {item.product?.name || 'Product'} × {item.quantity}
                           </span>
                           <span className="text-gray-500">${(item.price * item.quantity).toFixed(2)}</span>
@@ -1592,12 +1605,12 @@ function ChallengesPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">
-          <Trophy size={24} className="inline mr-2" />
+        <h1 className="text-2xl font-bold text-gray-100">
+          <Trophy size={24} className="inline mr-2 text-[#fbbf24]" />
           Security Challenges
         </h1>
         <div className="text-right">
-          <span className="text-sm font-medium text-gray-600">{solvedCount}/{totalCount} solved</span>
+          <span className="text-sm font-medium text-gray-400">{solvedCount}/{totalCount} solved</span>
           <div className="w-32 mt-1">
             <Progress value={progressPercent} className="h-2" />
           </div>
@@ -1612,8 +1625,8 @@ function ChallengesPage() {
             onClick={() => setSelectedCategory(cat)}
             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap ${
               selectedCategory === cat
-                ? 'bg-[#ff6b35] text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                ? 'bg-[#00ffcc] text-[#0a0a0f]'
+                : 'bg-[#111827] text-gray-400 hover:bg-gray-800 border border-gray-700'
             }`}
           >
             {cat}
@@ -1624,10 +1637,10 @@ function ChallengesPage() {
       {loading ? (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {Array.from({ length: 6 }).map((_, i) => (
-            <Card key={i} className="animate-pulse">
+            <Card key={i} className="animate-pulse bg-[#111827] border-gray-800">
               <CardContent className="p-5">
-                <div className="h-4 bg-gray-200 rounded mb-2" />
-                <div className="h-3 bg-gray-100 rounded w-2/3" />
+                <div className="h-4 bg-gray-700 rounded mb-2" />
+                <div className="h-3 bg-gray-800 rounded w-2/3" />
               </CardContent>
             </Card>
           ))}
@@ -1636,13 +1649,13 @@ function ChallengesPage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((challenge) => {
             const isSolved = challenge.solved || solvedChallenges.includes(challenge.id)
-            const catColor = challengeCatColors[challenge.category] || 'bg-gray-100 text-gray-800'
+            const catColor = challengeCatColors[challenge.category] || 'bg-gray-800 text-gray-400 border-gray-700'
 
             return (
               <Card
                 key={challenge.id}
-                className={`border-gray-200 transition-all ${
-                  isSolved ? 'bg-green-50/50 border-green-200' : ''
+                className={`bg-[#111827] border-gray-800 transition-all ${
+                  isSolved ? 'bg-[#22c55e]/5 border-[#22c55e]/20' : ''
                 }`}
               >
                 <CardContent className="p-5">
@@ -1651,14 +1664,14 @@ function ChallengesPage() {
                       {challenge.category}
                     </Badge>
                     {isSolved ? (
-                      <Badge className="bg-green-100 text-green-700 text-xs">
+                      <Badge className="bg-[#22c55e]/20 text-[#22c55e] text-xs border-0">
                         <CheckCircle2 size={12} className="mr-1" /> Solved
                       </Badge>
                     ) : (
-                      <Badge variant="secondary" className="text-xs">Unsolved</Badge>
+                      <Badge variant="secondary" className="text-xs bg-gray-800 text-gray-400 border-0">Unsolved</Badge>
                     )}
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-1">{challenge.name}</h3>
+                  <h3 className="font-semibold text-gray-100 mb-1">{challenge.name}</h3>
                   <p className="text-sm text-gray-500 mb-3 line-clamp-2">{challenge.description}</p>
                   <div className="flex items-center justify-between">
                     <div className="flex gap-0.5">
@@ -1666,33 +1679,33 @@ function ChallengesPage() {
                         <Star
                           key={i}
                           size={14}
-                          className={i <= challenge.difficulty ? 'fill-yellow-400 text-yellow-400' : 'text-gray-200'}
+                          className={i <= challenge.difficulty ? 'fill-[#f43f5e] text-[#f43f5e]' : 'text-gray-700'}
                         />
                       ))}
                     </div>
                     {!isSolved && (
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button size="sm" variant="outline" className="text-xs">
+                          <Button size="sm" variant="outline" className="text-xs border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-gray-200">
                             Solve
                           </Button>
                         </DialogTrigger>
-                        <DialogContent>
+                        <DialogContent className="bg-[#111827] border-gray-700">
                           <DialogHeader>
-                            <DialogTitle>{challenge.name}</DialogTitle>
+                            <DialogTitle className="text-gray-100">{challenge.name}</DialogTitle>
                           </DialogHeader>
                           <div className="space-y-4">
-                            <p className="text-sm text-gray-600">{challenge.description}</p>
+                            <p className="text-sm text-gray-400">{challenge.description}</p>
                             {challenge.hint && (
-                              <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                                <p className="text-xs text-yellow-700">
+                              <div className="p-3 bg-[#fbbf24]/5 border border-[#fbbf24]/20 rounded-lg">
+                                <p className="text-xs text-[#fbbf24]/80">
                                   <strong>Hint:</strong> {challenge.hint}
                                 </p>
                               </div>
                             )}
                             <Button
                               onClick={() => handleSolve(challenge)}
-                              className="bg-[#4caf50] hover:bg-[#43a047] text-white"
+                              className="bg-[#22c55e] hover:bg-[#16a34a] text-white"
                             >
                               Mark as Solved
                             </Button>
@@ -1731,12 +1744,12 @@ function AdminPage() {
   if (!user || user.role !== 'admin') {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
-        <Shield size={48} className="mx-auto text-gray-300 mb-4" />
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h2>
-        <p className="text-gray-500 mb-6">You need admin privileges to view this page.</p>
+        <Shield size={48} className="mx-auto text-[#f43f5e]/50 mb-4" />
+        <h2 className="text-2xl font-bold text-gray-200 mb-2">Access Denied</h2>
+        <p className="text-gray-500 mb-6">You need admin privileges to access this terminal.</p>
         <div className="space-y-2">
-          <p className="text-sm text-gray-400">Hint: The admin endpoint only checks for an <code className="bg-gray-100 px-1 rounded">x-admin</code> header 😉</p>
-          <Button onClick={() => navigate('login')} variant="outline">Login as Admin</Button>
+          <p className="text-sm text-gray-600">Hint: The admin endpoint only checks for an <code className="bg-gray-800 px-1 rounded text-[#00ffcc]">x-admin</code> header 😉</p>
+          <Button onClick={() => navigate('login')} variant="outline" className="border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-gray-200">Login as Admin</Button>
         </div>
       </div>
     )
@@ -1748,18 +1761,18 @@ function AdminPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">
-        <Shield size={24} className="inline mr-2 text-red-500" />
-        Admin Panel
+      <h1 className="text-2xl font-bold text-gray-100 mb-6">
+        <Shield size={24} className="inline mr-2 text-[#f43f5e]" />
+        Admin Terminal
       </h1>
 
       {loading ? (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {Array.from({ length: 4 }).map((_, i) => (
-            <Card key={i} className="animate-pulse">
+            <Card key={i} className="animate-pulse bg-[#111827] border-gray-800">
               <CardContent className="p-5">
-                <div className="h-8 bg-gray-200 rounded mb-2" />
-                <div className="h-3 bg-gray-100 rounded w-2/3" />
+                <div className="h-8 bg-gray-700 rounded mb-2" />
+                <div className="h-3 bg-gray-800 rounded w-2/3" />
               </CardContent>
             </Card>
           ))}
@@ -1769,16 +1782,16 @@ function AdminPage() {
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             {[
-              { label: 'Total Users', value: stats.totalUsers || 0, icon: <UserIcon size={20} className="text-blue-500" /> },
-              { label: 'Total Orders', value: stats.totalOrders || 0, icon: <Package size={20} className="text-green-500" /> },
-              { label: 'Total Products', value: stats.totalProducts || 0, icon: <ShoppingBag size={20} className="text-orange-500" /> },
-              { label: 'Revenue', value: `$${(stats.totalRevenue || 0).toFixed(2)}`, icon: <Zap size={20} className="text-yellow-500" /> },
+              { label: 'Total Users', value: stats.totalUsers || 0, icon: <UserIcon size={20} className="text-[#00ffcc]" /> },
+              { label: 'Total Orders', value: stats.totalOrders || 0, icon: <Package size={20} className="text-[#a855f7]" /> },
+              { label: 'Total Products', value: stats.totalProducts || 0, icon: <ShoppingBag size={20} className="text-[#fbbf24]" /> },
+              { label: 'Revenue', value: `$${(stats.totalRevenue || 0).toFixed(2)}`, icon: <Zap size={20} className="text-[#22c55e]" /> },
             ].map((stat) => (
-              <Card key={stat.label} className="border-gray-200">
+              <Card key={stat.label} className="bg-[#111827] border-gray-800">
                 <CardContent className="p-5">
                   <div className="flex items-center justify-between mb-2">
                     {stat.icon}
-                    <span className="text-2xl font-bold text-gray-900">{stat.value}</span>
+                    <span className="text-2xl font-bold text-gray-100">{stat.value}</span>
                   </div>
                   <span className="text-sm text-gray-500">{stat.label}</span>
                 </CardContent>
@@ -1787,18 +1800,18 @@ function AdminPage() {
           </div>
 
           {/* Users Table - Exposes passwords! */}
-          <Card className="border-red-200 mb-8">
+          <Card className="border-[#f43f5e]/30 bg-[#111827] mb-8">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-red-700">
+              <CardTitle className="flex items-center gap-2 text-[#f43f5e]">
                 <AlertTriangle size={18} />
-                User Management (Passwords Exposed!)
+                User Database (Passwords Exposed!)
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-gray-200">
+                    <tr className="border-b border-gray-800">
                       <th className="text-left p-2 font-medium text-gray-500">Email</th>
                       <th className="text-left p-2 font-medium text-gray-500">Username</th>
                       <th className="text-left p-2 font-medium text-gray-500">Password</th>
@@ -1807,16 +1820,16 @@ function AdminPage() {
                   </thead>
                   <tbody>
                     {users.map((u, i) => (
-                      <tr key={i} className="border-b border-gray-100 hover:bg-gray-50">
-                        <td className="p-2">{String(u.email)}</td>
-                        <td className="p-2">{String(u.username)}</td>
+                      <tr key={i} className="border-b border-gray-800/50 hover:bg-gray-800/30">
+                        <td className="p-2 text-gray-300">{String(u.email)}</td>
+                        <td className="p-2 text-gray-300">{String(u.username)}</td>
                         <td className="p-2">
-                          <code className="bg-red-50 text-red-600 px-1 rounded text-xs font-mono">
+                          <code className="bg-[#f43f5e]/10 text-[#f43f5e] px-1 rounded text-xs font-mono">
                             {String(u.password)}
                           </code>
                         </td>
                         <td className="p-2">
-                          <Badge variant="secondary" className={String(u.role) === 'admin' ? 'bg-orange-100 text-orange-700' : 'bg-gray-100'}>
+                          <Badge variant="secondary" className={String(u.role) === 'admin' ? 'bg-[#f43f5e]/10 text-[#f43f5e] border-0' : 'bg-gray-800 text-gray-400 border-0'}>
                             {String(u.role)}
                           </Badge>
                         </td>
@@ -1829,31 +1842,31 @@ function AdminPage() {
           </Card>
 
           {/* Recent Orders */}
-          <Card className="border-gray-200">
+          <Card className="bg-[#111827] border-gray-800">
             <CardHeader>
-              <CardTitle>Recent Orders</CardTitle>
+              <CardTitle className="text-gray-100">Recent Orders</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {orders.slice(0, 5).map((order, i) => (
-                  <div key={i} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div key={i} className="flex items-center justify-between p-3 bg-[#0a0a0f] rounded-lg border border-gray-800">
                     <div>
-                      <span className="font-medium text-sm">
+                      <span className="font-medium text-sm text-gray-300">
                         {String((order.user as Record<string, unknown>)?.username || 'Unknown')}
                       </span>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-600">
                         {new Date(String(order.createdAt)).toLocaleDateString()}
                       </p>
                     </div>
                     <div className="text-right">
-                      <span className="font-bold text-[#ff6b35]">${Number(order.total).toFixed(2)}</span>
+                      <span className="font-bold text-[#00ffcc]">${Number(order.total).toFixed(2)}</span>
                       <p className="text-xs">
-                        <Badge className={`text-xs ${
+                        <Badge className={`text-xs border-0 ${
                           String(order.status) === 'delivered'
-                            ? 'bg-green-100 text-green-700'
+                            ? 'bg-[#22c55e]/20 text-[#22c55e]'
                             : String(order.status) === 'shipped'
-                            ? 'bg-blue-100 text-blue-700'
-                            : 'bg-yellow-100 text-yellow-700'
+                            ? 'bg-[#00ffcc]/20 text-[#00ffcc]'
+                            : 'bg-[#fbbf24]/20 text-[#fbbf24]'
                         }`}>
                           {String(order.status)}
                         </Badge>
@@ -1877,9 +1890,9 @@ function ProfilePage() {
   if (!user) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
-        <Lock size={48} className="mx-auto text-gray-300 mb-4" />
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Please Login</h2>
-        <Button onClick={() => navigate('login')} className="bg-[#ff6b35] hover:bg-[#e55a2b] text-white">
+        <Lock size={48} className="mx-auto text-gray-700 mb-4" />
+        <h2 className="text-2xl font-bold text-gray-200 mb-2">Access Required</h2>
+        <Button onClick={() => navigate('login')} className="bg-[#00ffcc] hover:bg-[#00e6b8] text-[#0a0a0f]">
           Login
         </Button>
       </div>
@@ -1888,47 +1901,47 @@ function ProfilePage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
-      <Card className="border-gray-200">
+      <Card className="bg-[#111827] border-gray-800">
         <CardHeader className="text-center">
           <Avatar className="h-20 w-20 mx-auto mb-3">
-            <AvatarFallback className="bg-[#ff6b35] text-white text-2xl font-bold">
+            <AvatarFallback className="bg-[#00ffcc]/10 text-[#00ffcc] text-2xl font-bold">
               {user.username[0].toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <CardTitle className="text-2xl">{user.username}</CardTitle>
-          <Badge className={user.role === 'admin' ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-700'}>
+          <CardTitle className="text-2xl text-gray-100">{user.username}</CardTitle>
+          <Badge className={user.role === 'admin' ? 'bg-[#f43f5e]/10 text-[#f43f5e] border-0' : 'bg-gray-800 text-gray-400 border-0'}>
             {user.role === 'admin' ? '🛡️ Admin' : '👤 Customer'}
           </Badge>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-3">
-            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-              <UserIcon size={18} className="text-gray-400" />
+            <div className="flex items-center gap-3 p-3 bg-[#0a0a0f] rounded-lg border border-gray-800">
+              <UserIcon size={18} className="text-gray-600" />
               <div>
                 <p className="text-xs text-gray-500">Username</p>
-                <p className="font-medium text-gray-900">{user.username}</p>
+                <p className="font-medium text-gray-200">{user.username}</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-              <LogIn size={18} className="text-gray-400" />
+            <div className="flex items-center gap-3 p-3 bg-[#0a0a0f] rounded-lg border border-gray-800">
+              <LogIn size={18} className="text-gray-600" />
               <div>
                 <p className="text-xs text-gray-500">Email</p>
-                <p className="font-medium text-gray-900">{user.email}</p>
+                <p className="font-medium text-gray-200">{user.email}</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-              <Shield size={18} className="text-gray-400" />
+            <div className="flex items-center gap-3 p-3 bg-[#0a0a0f] rounded-lg border border-gray-800">
+              <Shield size={18} className="text-gray-600" />
               <div>
                 <p className="text-xs text-gray-500">Role</p>
-                <p className="font-medium text-gray-900 capitalize">{user.role}</p>
+                <p className="font-medium text-gray-200 capitalize">{user.role}</p>
               </div>
             </div>
             {user.token && (
-              <div className="flex items-center gap-3 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
-                <Lock size={18} className="text-yellow-500" />
+              <div className="flex items-center gap-3 p-3 bg-[#f43f5e]/5 rounded-lg border border-[#f43f5e]/20">
+                <Lock size={18} className="text-[#f43f5e]" />
                 <div className="min-w-0 flex-1">
-                  <p className="text-xs text-yellow-600">Auth Token (exposed!)</p>
-                  <p className="font-mono text-xs text-yellow-800 truncate">{user.token}</p>
+                  <p className="text-xs text-[#f43f5e]/80">Auth Token (exposed!)</p>
+                  <p className="font-mono text-xs text-[#f43f5e] truncate">{user.token}</p>
                 </div>
               </div>
             )}
@@ -1938,14 +1951,14 @@ function ProfilePage() {
             <Button
               onClick={() => navigate('orders')}
               variant="outline"
-              className="flex-1"
+              className="flex-1 border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-gray-200"
             >
               <Package size={16} className="mr-2" /> My Orders
             </Button>
             {user.role === 'admin' && (
               <Button
                 onClick={() => navigate('admin')}
-                className="flex-1 bg-[#ff6b35] hover:bg-[#e55a2b] text-white"
+                className="flex-1 bg-[#f43f5e] hover:bg-[#e11d48] text-white"
               >
                 <Shield size={16} className="mr-2" /> Admin Panel
               </Button>
@@ -1958,7 +1971,7 @@ function ProfilePage() {
 }
 
 // ─── Main App ───────────────────────────────────────────────────
-export default function JuiceShopApp() {
+export default function ShadowMartApp() {
   const { currentPage } = useAppStore()
 
   const renderPage = () => {
@@ -1989,7 +2002,7 @@ export default function JuiceShopApp() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-[#0a0a0f]">
       <Navbar />
       <main className="flex-1">
         {renderPage()}

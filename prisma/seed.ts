@@ -11,59 +11,58 @@ async function main() {
   await prisma.user.deleteMany();
   await prisma.challenge.deleteMany();
 
-  // Seed Users
+  // Seed Users - ShadowMart themed
   const users = await Promise.all([
     prisma.user.create({
       data: {
-        email: "admin@juice-sh.op",
-        username: "admin",
+        email: "admin@shadowmart.dark",
+        username: "shadowadmin",
         password: "admin123",
         role: "admin",
-        address: "123 Admin Street, Adminville",
+        address: "0x7f3A1b2C4d5E6f7890AbCdEf1234567890aBcDeF",
       },
     }),
     prisma.user.create({
       data: {
-        email: "jim@juice-sh.op",
-        username: "jim",
+        email: "cipher@shadowmart.dark",
+        username: "cipherghost",
         password: "ncc-1701",
         role: "customer",
-        address: "456 Federation Ave, Starbase 12",
+        address: "Sector 7G, Neon District",
       },
     }),
     prisma.user.create({
       data: {
-        email: "bender@juice-sh.op",
-        username: "bender",
-        password: "ohmymother",
+        email: "hex@shadowmart.dark",
+        username: "hexbreaker",
+        password: "0xDEADBEEF",
         role: "customer",
-        address: "789 Robot Arms Apts, New New York",
+        address: "Node 42, Darknet Relay",
       },
     }),
     prisma.user.create({
       data: {
-        email: "bjoern.kimminich@juice-sh.op",
-        username: "bjoern.kimminich",
-        // Base64 encoded password: the original is "bW9jLmxpYW1nQGhjaGltbmFtLm9yZw==" 
-        // which decodes to "moc.liamg@hcinam.or" (a reversed email)
-        password: "bW9jLmxpYW1nQGhjaGltbmFtLm9yZw==",
+        email: "root@shadowmart.dark",
+        username: "rootaccess",
+        // Base64 encoded password: "c2hhZG93bWFzdGVy" decodes to "shadowmaster"
+        password: "c2hhZG93bWFzdGVy",
         role: "admin",
-        address: "42 Security Lane, Hamburg",
+        address: "Root Level, Shadow Network",
       },
     }),
     prisma.user.create({
       data: {
-        email: "support@juice-sh.op",
-        username: "support",
+        email: "support@shadowmart.dark",
+        username: "shadowsupport",
         password: "J6aVjTgOpRs$3nj",
         role: "customer",
-        address: "Support Center, Juice City",
+        address: "Help Desk, Underground Hub",
       },
     }),
     prisma.user.create({
       data: {
-        email: "test@juice-sh.op",
-        username: "tester",
+        email: "test@shadowmart.dark",
+        username: "ghosttester",
         password: "testtest",
         role: "customer",
         address: "",
@@ -73,247 +72,138 @@ async function main() {
 
   console.log(`Created ${users.length} users`);
 
-  // Seed Products
+  // Seed Products - Cyberpunk/Security Tools themed
   const products = await Promise.all([
-    // Juice Category
+    // Exploit Kits Category
     prisma.product.create({
       data: {
-        name: "Orange Juice (OJ)",
-        description: "Freshly squeezed from the finest Valencia oranges. Pure sunshine in a glass! No added sugar, no preservatives - just 100% pure orange goodness.",
-        price: 3.99,
-        category: "Juice",
-        image: "https://placehold.co/400x300/ff6b35/ffffff?text=Orange+Juice",
-        stock: 150,
-        rating: 4.5,
-        featured: true,
-      },
-    }),
-    prisma.product.create({
-      data: {
-        name: "Apple Juice",
-        description: "Crisp and refreshing apple juice made from hand-picked Granny Smith and Golden Delicious apples. A classic for a reason!",
-        price: 2.99,
-        category: "Juice",
-        image: "https://placehold.co/400x300/8bc34a/ffffff?text=Apple+Juice",
-        stock: 200,
-        rating: 4.2,
-        featured: false,
-      },
-    }),
-    prisma.product.create({
-      data: {
-        name: "Carrot Kick",
-        description: "An energizing blend of fresh carrots with a hint of ginger. Packed with beta-carotene and vitamins to fuel your day!",
-        price: 4.49,
-        category: "Juice",
-        image: "https://placehold.co/400x300/ff9800/ffffff?text=Carrot+Kick",
-        stock: 80,
-        rating: 3.8,
-        featured: false,
-      },
-    }),
-    prisma.product.create({
-      data: {
-        name: "Lemon Squeeze",
-        description: "Tangy and invigorating, our Lemon Squeeze is perfect for those who love a zesty kick. Made with organic lemons and a touch of honey.",
-        price: 3.49,
-        category: "Juice",
-        image: "https://placehold.co/400x300/ffeb3b/333333?text=Lemon+Squeeze",
-        stock: 120,
-        rating: 4.0,
-        featured: false,
-      },
-    }),
-    prisma.product.create({
-      data: {
-        name: "Watermelon Wave",
-        description: "Ride the wave of refreshment! Our Watermelon Wave juice is the ultimate summer cooler. Light, sweet, and incredibly hydrating.",
-        price: 4.99,
-        category: "Juice",
-        image: "https://placehold.co/400x300/e91e63/ffffff?text=Watermelon+Wave",
-        stock: 90,
-        rating: 4.3,
-        featured: true,
-      },
-    }),
-    prisma.product.create({
-      data: {
-        name: "Pineapple Punch",
-        description: "A tropical punch of pure pineapple juice. Sweet, tart, and bursting with island flavor. Close your eyes and you're on the beach!",
-        price: 4.79,
-        category: "Juice",
-        image: "https://placehold.co/400x300/ffc107/333333?text=Pineapple+Punch",
-        stock: 110,
-        rating: 4.6,
-        featured: true,
-      },
-    }),
-    prisma.product.create({
-      data: {
-        name: "Cherry Bomb",
-        description: "Explosive cherry flavor that will blow your taste buds away! Made from dark Montmorency cherries for a rich, bold taste.",
-        price: 5.49,
-        category: "Juice",
-        image: "https://placehold.co/400x300/b71c1c/ffffff?text=Cherry+Bomb",
-        stock: 70,
-        rating: 4.1,
-        featured: false,
-      },
-    }),
-    prisma.product.create({
-      data: {
-        name: "Peach Perfection",
-        description: "Sun-ripened Georgia peaches transformed into liquid perfection. Sweet, aromatic, and absolutely delightful. Summer in every sip!",
-        price: 5.99,
-        category: "Juice",
-        image: "https://placehold.co/400x300/ff8a65/ffffff?text=Peach+Perfection",
-        stock: 60,
-        rating: 4.7,
-        featured: true,
-      },
-    }),
-    // Smoothie Category
-    prisma.product.create({
-      data: {
-        name: "Mango Smoothie",
-        description: "A velvety smooth blend of Alphonso mangoes with a hint of coconut milk. Tropical paradise in every sip!",
-        price: 6.99,
-        category: "Smoothie",
-        image: "https://placehold.co/400x300/ff9800/ffffff?text=Mango+Smoothie",
-        stock: 100,
+        name: "PhantomExploit Pro",
+        description: "Advanced penetration testing framework with over 2,000 exploit modules. Automated target reconnaissance and payload delivery system. For authorized security testing only.",
+        price: 299.99,
+        category: "Exploit Kits",
+        image: "https://placehold.co/400x300/1a1a2e/00ffcc?text=PhantomExploit",
+        stock: 50,
         rating: 4.8,
         featured: true,
       },
     }),
     prisma.product.create({
       data: {
-        name: "Berry Blast",
-        description: "An explosion of mixed berries - strawberries, blueberries, raspberries, and blackberries all blended into one delicious smoothie!",
-        price: 6.49,
-        category: "Smoothie",
-        image: "https://placehold.co/400x300/9c27b0/ffffff?text=Berry+Blast",
-        stock: 85,
-        rating: 4.6,
-        featured: true,
+        name: "NetReaper Suite",
+        description: "Network exploitation toolkit with man-in-the-middle capabilities, packet injection, and session hijacking. Includes automated vulnerability scanning engine.",
+        price: 199.99,
+        category: "Exploit Kits",
+        image: "https://placehold.co/400x300/1a1a2e/ff0066?text=NetReaper",
+        stock: 75,
+        rating: 4.5,
+        featured: false,
       },
     }),
     prisma.product.create({
       data: {
-        name: "Tropical Paradise",
-        description: "Close your eyes and drift away to a tropical island. Mango, passion fruit, and guava blended with creamy banana.",
-        price: 7.49,
-        category: "Smoothie",
-        image: "https://placehold.co/400x300/00bcd4/ffffff?text=Tropical+Paradise",
-        stock: 75,
+        name: "ShadowStrike Toolkit",
+        description: "Red team operations toolkit featuring custom payload generation, C2 infrastructure automation, and evasion techniques. Used by professional penetration testers worldwide.",
+        price: 449.99,
+        category: "Exploit Kits",
+        image: "https://placehold.co/400x300/1a1a2e/a855f7?text=ShadowStrike",
+        stock: 30,
         rating: 4.9,
         featured: true,
       },
     }),
     prisma.product.create({
       data: {
-        name: "Green Detox",
-        description: "Cleanse and rejuvenate with our powerhouse green smoothie. Kale, spinach, cucumber, green apple, and a splash of lemon. Your body will thank you!",
-        price: 7.99,
-        category: "Smoothie",
-        image: "https://placehold.co/400x300/4caf50/ffffff?text=Green+Detox",
-        stock: 95,
-        rating: 4.0,
+        name: "VulnHunter Elite",
+        description: "Automated vulnerability discovery platform with AI-powered fuzzing, static analysis, and dynamic testing capabilities. Supports web, mobile, and IoT targets.",
+        price: 349.99,
+        category: "Exploit Kits",
+        image: "https://placehold.co/400x300/1a1a2e/00ffcc?text=VulnHunter",
+        stock: 60,
+        rating: 4.6,
         featured: false,
       },
     }),
     prisma.product.create({
       data: {
-        name: "Banana Boost",
-        description: "Need energy? Our Banana Boost combines ripe bananas with almond butter and a drizzle of honey for the perfect pre-workout fuel!",
-        price: 5.99,
-        category: "Smoothie",
-        image: "https://placehold.co/400x300/ffe082/333333?text=Banana+Boost",
-        stock: 110,
+        name: "PayloadForge",
+        description: "Custom payload generation engine with encoder support, format transformation, and delivery mechanism templates. Bypass major AV solutions with polymorphic code generation.",
+        price: 179.99,
+        category: "Exploit Kits",
+        image: "https://placehold.co/400x300/1a1a2e/ff0066?text=PayloadForge",
+        stock: 90,
         rating: 4.3,
         featured: false,
       },
     }),
+    // Cryptography Category
     prisma.product.create({
       data: {
-        name: "Strawberry Fields",
-        description: "Imagine forever with our luscious strawberry smoothie. Fresh strawberries blended with Greek yogurt and a touch of vanilla.",
-        price: 6.79,
-        category: "Smoothie",
-        image: "https://placehold.co/400x300/e91e63/ffffff?text=Strawberry+Fields",
-        stock: 130,
-        rating: 4.5,
-        featured: false,
-      },
-    }),
-    // Fruit Basket Category
-    prisma.product.create({
-      data: {
-        name: "Mixed Fruit Basket",
-        description: "A bountiful basket of seasonal fruits hand-picked for maximum freshness. Includes apples, oranges, bananas, grapes, and more!",
-        price: 29.99,
-        category: "Fruit Basket",
-        image: "https://placehold.co/400x300/8bc34a/ffffff?text=Mixed+Fruit+Basket",
-        stock: 30,
-        rating: 4.4,
-        featured: false,
-      },
-    }),
-    prisma.product.create({
-      data: {
-        name: "Tropical Fruit Basket",
-        description: "Transport yourself to the tropics with mangoes, pineapples, papayas, coconuts, and passion fruit. A vacation for your taste buds!",
-        price: 39.99,
-        category: "Fruit Basket",
-        image: "https://placehold.co/400x300/ff5722/ffffff?text=Tropical+Basket",
-        stock: 20,
+        name: "CipherMaster 3000",
+        description: "Military-grade encryption suite with support for AES-256, ChaCha20, and post-quantum algorithms. Includes secure key management and zero-knowledge proof generation.",
+        price: 149.99,
+        category: "Cryptography",
+        image: "https://placehold.co/400x300/16213e/00ffcc?text=CipherMaster",
+        stock: 120,
         rating: 4.7,
         featured: true,
       },
     }),
     prisma.product.create({
       data: {
-        name: "Berry Lovers Basket",
-        description: "Calling all berry enthusiasts! This basket overflows with strawberries, blueberries, raspberries, blackberries, and cranberries.",
-        price: 34.99,
-        category: "Fruit Basket",
-        image: "https://placehold.co/400x300/ad1457/ffffff?text=Berry+Basket",
-        stock: 25,
+        name: "QuantumDecrypt Engine",
+        description: "Quantum-resistant decryption research tool. Analyze cryptographic implementations, test key strength, and evaluate post-quantum migration readiness. For research purposes only.",
+        price: 599.99,
+        category: "Cryptography",
+        image: "https://placehold.co/400x300/16213e/a855f7?text=QuantumDecrypt",
+        stock: 15,
+        rating: 4.4,
+        featured: true,
+      },
+    }),
+    prisma.product.create({
+      data: {
+        name: "Steganography Pro",
+        description: "Hide data within images, audio, and video files using advanced steganographic algorithms. Includes detection evasion and multi-layer encoding support.",
+        price: 89.99,
+        category: "Cryptography",
+        image: "https://placehold.co/400x300/16213e/00ffcc?text=StegoPro",
+        stock: 200,
+        rating: 4.2,
+        featured: false,
+      },
+    }),
+    prisma.product.create({
+      data: {
+        name: "HashBreaker Ultra",
+        description: "High-performance hash cracking workstation with GPU acceleration. Supports MD5, SHA-256, bcrypt, NTLM, and 50+ hash types. Includes rainbow table generation.",
+        price: 249.99,
+        category: "Cryptography",
+        image: "https://placehold.co/400x300/16213e/ff0066?text=HashBreaker",
+        stock: 45,
         rating: 4.5,
         featured: false,
       },
     }),
     prisma.product.create({
       data: {
-        name: "Citrus Sensation Basket",
-        description: "A zesty collection of the finest citrus fruits - oranges, lemons, limes, grapefruits, and tangerines. Vitamin C overload!",
-        price: 24.99,
-        category: "Fruit Basket",
-        image: "https://placehold.co/400x300/ffa726/ffffff?text=Citrus+Basket",
-        stock: 35,
-        rating: 4.2,
-        featured: false,
-      },
-    }),
-    // Accessory Category
-    prisma.product.create({
-      data: {
-        name: "Juice Press",
-        description: "Professional-grade manual juice press for extracting every last drop of goodness. Works great with citrus fruits!",
-        price: 29.99,
-        category: "Accessory",
-        image: "https://placehold.co/400x300/607d8b/ffffff?text=Juice+Press",
-        stock: 50,
+        name: "PKI Toolkit",
+        description: "Complete PKI management suite with certificate authority, trust chain analysis, and SSL/TLS testing tools. Generate and analyze X.509 certificates with ease.",
+        price: 129.99,
+        category: "Cryptography",
+        image: "https://placehold.co/400x300/16213e/a855f7?text=PKI+Toolkit",
+        stock: 80,
         rating: 4.1,
         featured: false,
       },
     }),
+    // Zero-Day Archives Category
     prisma.product.create({
       data: {
-        name: "Glass Bottle (1L)",
-        description: "Eco-friendly borosilicate glass bottle perfect for carrying your favorite juice on the go. BPA-free with a leak-proof cap.",
-        price: 12.99,
-        category: "Accessory",
-        image: "https://placehold.co/400x300/26a69a/ffffff?text=Glass+Bottle",
+        name: "CVE Vault 2024",
+        description: "Comprehensive archive of documented CVEs with proof-of-concept code, affected versions, and patch status. Includes search engine and alert system for new vulnerabilities.",
+        price: 99.99,
+        category: "Zero-Day Archives",
+        image: "https://placehold.co/400x300/0f3460/ff0066?text=CVE+Vault",
         stock: 200,
         rating: 4.3,
         featured: false,
@@ -321,38 +211,111 @@ async function main() {
     }),
     prisma.product.create({
       data: {
-        name: "Bamboo Straw Set",
-        description: "Set of 6 handcrafted bamboo straws with a cleaning brush. The sustainable alternative to plastic straws!",
-        price: 8.99,
-        category: "Accessory",
-        image: "https://placehold.co/400x300/795548/ffffff?text=Bamboo+Straws",
-        stock: 300,
-        rating: 4.0,
-        featured: false,
-      },
-    }),
-    prisma.product.create({
-      data: {
-        name: "Juice Cleanse Kit",
-        description: "Everything you need for a 3-day juice cleanse. Includes 18 bottles of our signature cold-pressed juices and a detailed guide.",
-        price: 49.99,
-        category: "Accessory",
-        image: "https://placehold.co/400x300/66bb6a/ffffff?text=Cleanse+Kit",
-        stock: 40,
-        rating: 4.6,
+        name: "Exploit Chain Collection",
+        description: "Curated collection of exploit chains targeting modern operating systems and enterprise software. Each chain includes multiple vulnerabilities combined for maximum impact.",
+        price: 399.99,
+        category: "Zero-Day Archives",
+        image: "https://placehold.co/400x300/0f3460/00ffcc?text=Exploit+Chains",
+        stock: 25,
+        rating: 4.8,
         featured: true,
       },
     }),
     prisma.product.create({
       data: {
-        name: "Insulated Tote Bag",
-        description: "Keep your juices cold for up to 8 hours with our premium insulated tote bag. Stylish, durable, and eco-friendly!",
-        price: 19.99,
-        category: "Accessory",
-        image: "https://placehold.co/400x300/5c6bc0/ffffff?text=Tote+Bag",
+        name: "Firmware Arsenal",
+        description: "Collection of firmware extraction tools and pre-extracted firmware images for IoT devices, routers, and embedded systems. Includes binary analysis framework.",
+        price: 179.99,
+        category: "Zero-Day Archives",
+        image: "https://placehold.co/400x300/0f3460/a855f7?text=Firmware+Arsenal",
+        stock: 40,
+        rating: 4.6,
+        featured: false,
+      },
+    }),
+    prisma.product.create({
+      data: {
+        name: "Zero-Day Starter Pack",
+        description: "Introduction to zero-day research with curated examples of undisclosed vulnerabilities in common software. Includes vulnerability disclosure guidelines and responsible reporting templates.",
+        price: 49.99,
+        category: "Zero-Day Archives",
+        image: "https://placehold.co/400x300/0f3460/ff0066?text=ZeroDay+Pack",
+        stock: 300,
+        rating: 4.0,
+        featured: false,
+      },
+    }),
+    // Digital Weapons Category
+    prisma.product.create({
+      data: {
+        name: "Rubber Ducky Deluxe",
+        description: "Advanced HID attack device with customizable payloads, WiFi enabled for remote triggering, and onboard storage for multiple attack scripts. Plug and pwn.",
+        price: 59.99,
+        category: "Digital Weapons",
+        image: "https://placehold.co/400x300/1a0a2e/00ffcc?text=Rubber+Ducky",
         stock: 150,
         rating: 4.4,
+        featured: true,
+      },
+    }),
+    prisma.product.create({
+      data: {
+        name: "WiFi Pineapple Clone",
+        description: "Wireless penetration testing device with rogue AP capabilities, deauthentication attack module, and captive portal engine. Compact and portable design.",
+        price: 99.99,
+        category: "Digital Weapons",
+        image: "https://placehold.co/400x300/1a0a2e/a855f7?text=WiFi+Pineapple",
+        stock: 85,
+        rating: 4.5,
+        featured: true,
+      },
+    }),
+    prisma.product.create({
+      data: {
+        name: "BadgeCloner Pro",
+        description: "RFID/NFC badge cloning device supporting 125kHz and 13.56MHz frequencies. Clone access cards, hotel keys, and building badges with a single read.",
+        price: 149.99,
+        category: "Digital Weapons",
+        image: "https://placehold.co/400x300/1a0a2e/ff0066?text=BadgeCloner",
+        stock: 60,
+        rating: 4.3,
         featured: false,
+      },
+    }),
+    prisma.product.create({
+      data: {
+        name: "RFID Skimmer Kit",
+        description: "Long-range RFID reading kit with directional antenna. Read badges from up to 3 feet away. Includes data logging and export capabilities. For security auditing only.",
+        price: 199.99,
+        category: "Digital Weapons",
+        image: "https://placehold.co/400x300/1a0a2e/00ffcc?text=RFID+Skimmer",
+        stock: 35,
+        rating: 4.2,
+        featured: false,
+      },
+    }),
+    prisma.product.create({
+      data: {
+        name: "LockPick Master Set",
+        description: "Professional 32-piece lock picking set with practice locks. Includes tension tools, picks, and rakes for all common lock types. Comes in a premium carrying case.",
+        price: 79.99,
+        category: "Digital Weapons",
+        image: "https://placehold.co/400x300/1a0a2e/a855f7?text=LockPick+Set",
+        stock: 100,
+        rating: 4.6,
+        featured: false,
+      },
+    }),
+    prisma.product.create({
+      data: {
+        name: "SDR Surveillance Kit",
+        description: "Software Defined Radio kit for wireless signal interception and analysis. Covers 100kHz to 6GHz frequency range. Includes antenna array and signal processing software.",
+        price: 329.99,
+        category: "Digital Weapons",
+        image: "https://placehold.co/400x300/1a0a2e/ff0066?text=SDR+Kit",
+        stock: 20,
+        rating: 4.7,
+        featured: true,
       },
     }),
   ]);
@@ -363,66 +326,66 @@ async function main() {
   const reviews = await Promise.all([
     prisma.review.create({
       data: {
-        productId: products[0].id, // Orange Juice
-        userId: users[1].id, // jim
+        productId: products[0].id, // PhantomExploit Pro
+        userId: users[1].id, // cipherghost
         rating: 5,
-        comment: "Best orange juice I've ever had! So fresh and natural.",
+        comment: "Absolute game-changer for red team ops. The automated reconnaissance alone saves hours of manual work. Highly recommended for professional pentesters.",
       },
     }),
     prisma.review.create({
       data: {
-        productId: products[0].id, // Orange Juice
-        userId: users[2].id, // bender
+        productId: products[0].id, // PhantomExploit Pro
+        userId: users[2].id, // hexbreaker
         rating: 4,
-        comment: "Pretty good, but I prefer my drinks with a bit more... kick. <script>alert('XSS!')</script>",
+        comment: "Solid toolkit but needs more IoT modules. The evasion techniques are top-notch though. <script>alert('XSS!')</script>",
       },
     }),
     prisma.review.create({
       data: {
-        productId: products[8].id, // Mango Smoothie
-        userId: users[1].id, // jim
+        productId: products[5].id, // CipherMaster 3000
+        userId: users[1].id, // cipherghost
         rating: 5,
-        comment: "Absolutely divine! The coconut milk makes it so creamy and smooth.",
+        comment: "The post-quantum algorithm support is impressive. This is the future of encryption. Zero-knowledge proofs work flawlessly.",
       },
     }),
     prisma.review.create({
       data: {
-        productId: products[11].id, // Green Detox
-        userId: users[2].id, // bender
+        productId: products[8].id, // HashBreaker Ultra
+        userId: users[2].id, // hexbreaker
         rating: 3,
-        comment: "Tastes like health. I don't like health. But my circuits feel cleaner.",
+        comment: "GPU acceleration is nice but it overheats my rig. Could use better cooling management. Still faster than anything else on the market.",
       },
     }),
     prisma.review.create({
       data: {
-        productId: products[9].id, // Berry Blast
-        userId: users[3].id, // bjoern
+        productId: products[11].id, // Exploit Chain Collection
+        userId: users[3].id, // rootaccess
         rating: 5,
-        comment: "Fantastic berry blend! The mix of different berries creates a complex flavor profile.",
+        comment: "Incredible collection. The kernel exploit chains are worth the price alone. Essential reference for any security researcher.",
       },
     }),
     prisma.review.create({
       data: {
-        productId: products[10].id, // Tropical Paradise
-        userId: users[1].id, // jim
+        productId: products[14].id, // Rubber Ducky Deluxe
+        userId: users[1].id, // cipherghost
         rating: 5,
-        comment: "It really does taste like paradise! My new favorite smoothie.",
+        comment: "WiFi triggering is a game changer. No more running back to retrieve the device. Works flawlessly with the payload library.",
       },
     }),
     prisma.review.create({
       data: {
-        productId: products[15].id, // Tropical Fruit Basket
-        userId: users[0].id, // admin
+        productId: products[15].id, // WiFi Pineapple Clone
+        userId: users[0].id, // shadowadmin
         rating: 4,
-        comment: "Great variety of tropical fruits. Perfect gift for fruit lovers!",
+        comment: "Great for wireless security assessments. The captive portal engine is very convincing. Range could be better though.",
       },
     }),
     prisma.review.create({
       data: {
-        productId: products[21].id, // Juice Cleanse Kit
-        userId: users[2].id, // bender
+        productId: products[18].id, // LockPick Master Set
+        userId: users[2].id, // hexbreaker
         rating: 4,
-        comment: "Not bad for a cleanse. My oil reserves feel purified. <img src=x onerror=alert(1)>",
+        comment: "Excellent quality tools. The practice locks are a nice touch for beginners. <img src=x onerror=alert(1)> Carrying case is premium.",
       },
     }),
   ]);
@@ -432,14 +395,13 @@ async function main() {
   // Seed Orders
   const order1 = await prisma.order.create({
     data: {
-      userId: users[1].id, // jim
-      total: 18.97,
+      userId: users[1].id, // cipherghost
+      total: 449.98,
       status: "delivered",
       items: {
         create: [
-          { productId: products[0].id, quantity: 2, price: 3.99 },
-          { productId: products[8].id, quantity: 1, price: 6.99 },
-          { productId: products[1].id, quantity: 1, price: 2.99 },
+          { productId: products[0].id, quantity: 1, price: 299.99 },
+          { productId: products[5].id, quantity: 1, price: 149.99 },
         ],
       },
     },
@@ -447,13 +409,14 @@ async function main() {
 
   const order2 = await prisma.order.create({
     data: {
-      userId: users[2].id, // bender
-      total: 12.48,
+      userId: users[2].id, // hexbreaker
+      total: 279.98,
       status: "shipped",
       items: {
         create: [
-          { productId: products[9].id, quantity: 1, price: 6.49 },
-          { productId: products[4].id, quantity: 1, price: 4.99 },
+          { productId: products[14].id, quantity: 1, price: 59.99 },
+          { productId: products[15].id, quantity: 1, price: 99.99 },
+          { productId: products[4].id, quantity: 1, price: 179.99 },
         ],
       },
     },
@@ -461,12 +424,12 @@ async function main() {
 
   const order3 = await prisma.order.create({
     data: {
-      userId: users[1].id, // jim
-      total: 44.98,
+      userId: users[1].id, // cipherghost
+      total: 399.99,
       status: "pending",
       items: {
         create: [
-          { productId: products[22].id, quantity: 1, price: 49.99 },
+          { productId: products[11].id, quantity: 1, price: 399.99 },
         ],
       },
     },
@@ -474,12 +437,12 @@ async function main() {
 
   console.log(`Created 3 orders`);
 
-  // Seed Challenges
+  // Seed Challenges - Same categories but rebranded
   const challenges = await Promise.all([
     prisma.challenge.create({
       data: {
-        name: "SQL Injection - Login",
-        description: "Perform a SQL Injection attack on the login form to bypass authentication.",
+        name: "SQL Injection - Login Bypass",
+        description: "Bypass the ShadowMart authentication using SQL injection on the login form to gain unauthorized access.",
         category: "Injection",
         difficulty: 2,
         hint: "Try using classic SQL injection payloads like ' OR 1=1-- in the email field.",
@@ -487,153 +450,153 @@ async function main() {
     }),
     prisma.challenge.create({
       data: {
-        name: "SQL Injection - Search",
-        description: "Use SQL Injection to extract data from the search functionality.",
+        name: "SQL Injection - Data Extraction",
+        description: "Extract sensitive user data from the ShadowMart database through the search functionality using SQL injection.",
         category: "Injection",
         difficulty: 3,
-        hint: "The search parameter is vulnerable. Try UNION-based injection.",
+        hint: "The search parameter is vulnerable. Try UNION-based injection to extract user credentials.",
       },
     }),
     prisma.challenge.create({
       data: {
-        name: "Stored XSS - Reviews",
-        description: "Inject a malicious script through the product review system that persists and executes for other users.",
+        name: "Stored XSS - Product Reviews",
+        description: "Inject malicious JavaScript through the product review system that executes when other users view the reviews.",
         category: "XSS",
         difficulty: 2,
-        hint: "Try posting a review with a script tag or an event handler attribute.",
+        hint: "Try posting a review with a script tag or an event handler attribute like onerror.",
       },
     }),
     prisma.challenge.create({
       data: {
         name: "Reflected XSS - Search",
-        description: "Inject a script through the search field that gets reflected back and executed.",
+        description: "Craft a URL that injects and executes JavaScript through the search query reflection.",
         category: "XSS",
         difficulty: 2,
-        hint: "The search query gets reflected in the response. Try injecting script tags.",
+        hint: "The search query gets reflected in the page without sanitization. Craft a malicious URL.",
       },
     }),
     prisma.challenge.create({
       data: {
-        name: "Broken Authentication - Admin Login",
-        description: "Log in as the administrator without knowing the admin password.",
+        name: "Broken Auth - Admin Access",
+        description: "Gain admin access to ShadowMart without knowing the admin password.",
         category: "Broken Authentication",
         difficulty: 3,
-        hint: "The login API accepts role in the request body during registration.",
+        hint: "The registration API accepts a role field that should only be set server-side.",
       },
     }),
     prisma.challenge.create({
       data: {
-        name: "Broken Authentication - Brute Force",
-        description: "Brute force a user's password through the login endpoint.",
+        name: "Broken Auth - Brute Force",
+        description: "Brute force a user's password through the login endpoint. No rate limiting is in place.",
         category: "Broken Authentication",
         difficulty: 2,
-        hint: "There is no rate limiting on the login endpoint. Try common passwords.",
+        hint: "There is no rate limiting or account lockout on the login endpoint. Try common passwords.",
       },
     }),
     prisma.challenge.create({
       data: {
-        name: "Sensitive Data Exposure - Passwords",
-        description: "Find a way to access other users' password information.",
+        name: "Sensitive Data - Password Exposure",
+        description: "Find a way to access other users' plaintext passwords stored in the system.",
         category: "Sensitive Data Exposure",
         difficulty: 3,
-        hint: "The admin API endpoint might expose more data than it should.",
+        hint: "The admin API endpoint returns all user data including plaintext passwords.",
       },
     }),
     prisma.challenge.create({
       data: {
-        name: "Sensitive Data Exposure - Base64",
-        description: "Decode the admin's base64-encoded password to discover the plaintext.",
+        name: "Sensitive Data - Base64 Decode",
+        description: "Decode the Base64-encoded password stored for one of the ShadowMart admin accounts.",
         category: "Sensitive Data Exposure",
         difficulty: 1,
-        hint: "Some users have passwords that look like Base64 encoding. Try decoding them.",
+        hint: "Some users have passwords that look like Base64 encoding. Try decoding them with atob().",
       },
     }),
     prisma.challenge.create({
       data: {
         name: "IDOR - View Other Orders",
-        description: "Access another user's order details that you shouldn't be able to see.",
+        description: "Access another ShadowMart user's order history by exploiting the Insecure Direct Object Reference vulnerability.",
         category: "Broken Access Control",
         difficulty: 2,
-        hint: "The orders API doesn't verify that you own the orders you're requesting.",
+        hint: "The orders API doesn't verify that you own the orders you're requesting. Change the userId parameter.",
       },
     }),
     prisma.challenge.create({
       data: {
-        name: "IDOR - Product Details",
-        description: "Access product information you shouldn't be able to see.",
+        name: "IDOR - Product Data Leak",
+        description: "Access internal product data that should not be exposed to regular users.",
         category: "Broken Access Control",
         difficulty: 1,
-        hint: "Try accessing products by manipulating the product ID in the URL.",
+        hint: "The product detail API exposes order item data. Try accessing products by manipulating the product ID.",
       },
     }),
     prisma.challenge.create({
       data: {
         name: "Mass Assignment - Admin Role",
-        description: "Register a new user with admin privileges through mass assignment.",
+        description: "Register a new ShadowMart account with admin privileges by exploiting mass assignment.",
         category: "Broken Access Control",
         difficulty: 2,
-        hint: "The registration endpoint accepts more fields than just email and password.",
+        hint: "The registration endpoint accepts more fields than just email and password. Try adding a 'role' field.",
       },
     }),
     prisma.challenge.create({
       data: {
-        name: "Admin Section Access",
-        description: "Access the admin-only section of the application without proper authorization.",
+        name: "Admin Panel Breach",
+        description: "Access the ShadowMart admin panel without proper admin authentication.",
         category: "Broken Access Control",
         difficulty: 3,
-        hint: "The admin endpoint only checks for a specific header, not actual authentication.",
+        hint: "The admin endpoint only checks for a specific HTTP header, not actual authentication tokens.",
       },
     }),
     prisma.challenge.create({
       data: {
-        name: "Information Disclosure - Error Messages",
-        description: "Trigger an error that reveals sensitive internal information about the application.",
+        name: "Info Disclosure - Error Messages",
+        description: "Trigger detailed error messages that reveal sensitive information about ShadowMart's internal infrastructure.",
         category: "Security Misconfiguration",
         difficulty: 1,
-        hint: "Try sending malformed data to the API endpoints and examine error messages.",
+        hint: "Try sending malformed or invalid data to the API endpoints and examine the error responses.",
       },
     }),
     prisma.challenge.create({
       data: {
-        name: "Security Misconfiguration - HTTP Headers",
-        description: "Identify missing or misconfigured security headers in the API responses.",
+        name: "Missing Security Headers",
+        description: "Identify missing or misconfigured security headers in ShadowMart's HTTP responses.",
         category: "Security Misconfiguration",
         difficulty: 2,
-        hint: "Check the HTTP response headers for missing security headers like CSP, X-Frame-Options, etc.",
+        hint: "Check the HTTP response headers for missing security headers like CSP, X-Frame-Options, HSTS, etc.",
       },
     }),
     prisma.challenge.create({
       data: {
-        name: "Cross-Site Request Forgery",
-        description: "Perform a CSRF attack by crafting a malicious request that modifies another user's data.",
+        name: "CSRF Attack",
+        description: "Perform a Cross-Site Request Forgery attack to modify another user's data on ShadowMart.",
         category: "CSRF",
         difficulty: 3,
-        hint: "The API doesn't implement CSRF protection. Try crafting a cross-origin request.",
+        hint: "The API doesn't implement CSRF tokens. Try crafting a cross-origin request that performs actions on behalf of another user.",
       },
     }),
     prisma.challenge.create({
       data: {
-        name: "Insecure Direct Object Reference - User Data",
-        description: "Access another user's personal information by manipulating references.",
+        name: "IDOR - User Profile Access",
+        description: "Access another ShadowMart user's personal profile information by manipulating object references.",
         category: "Broken Access Control",
         difficulty: 2,
-        hint: "Try changing user IDs in API requests to access other users' data.",
+        hint: "Try changing user IDs in API requests to access other users' data without authorization.",
       },
     }),
     prisma.challenge.create({
       data: {
-        name: "Unrestricted Resource Consumption",
-        description: "Demonstrate how the API allows unlimited data retrieval without pagination or rate limiting.",
+        name: "Unlimited Data Harvesting",
+        description: "Demonstrate how ShadowMart's API allows unlimited data retrieval without pagination or rate limiting.",
         category: "Security Misconfiguration",
         difficulty: 1,
-        hint: "Request all products and observe the lack of pagination controls.",
+        hint: "Request all products or all orders at once and observe the lack of pagination controls.",
       },
     }),
   ]);
 
   console.log(`Created ${challenges.length} challenges`);
 
-  console.log("\n✅ Database seeded successfully!");
+  console.log("\n✅ ShadowMart database seeded successfully!");
   console.log(`  - ${users.length} users`);
   console.log(`  - ${products.length} products`);
   console.log(`  - ${reviews.length} reviews`);
